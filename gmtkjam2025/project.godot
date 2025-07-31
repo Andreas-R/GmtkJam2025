@@ -21,6 +21,11 @@ window/size/viewport_width=1200
 window/size/viewport_height=800
 window/stretch/mode="viewport"
 
+[layer_names]
+
+2d_physics/layer_1="satellite"
+2d_physics/layer_2="astroid"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
