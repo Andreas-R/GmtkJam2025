@@ -17,7 +17,7 @@ texture = ExtResource("1_2tbx1")
 position = Vector2(590, 395)
 
 [node name="Orbit" type="Area2D" parent="Center"]
-rotation = -10.0951
+rotation = -21.3774
 script = ExtResource("3_6yoey")
 clockwise_rotation = false
 rotation_speed_deg = 5
@@ -61,7 +61,7 @@ texture = ExtResource("1_2tbx1")
 [node name="SatelliteSpacer" parent="Center/Orbit/Satellites/Sprite2D4" instance=ExtResource("5_kj6kd")]
 
 [node name="Orbit2" type="Area2D" parent="Center"]
-rotation = 20.1903
+rotation = 42.7548
 script = ExtResource("3_6yoey")
 radius = 300.0
 min_satellite_spacing = 3.0
