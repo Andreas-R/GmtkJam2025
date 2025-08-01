@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://jxwaqtrcn11h"]
+[gd_scene load_steps=15 format=3 uid="uid://jxwaqtrcn11h"]
 
 [ext_resource type="Script" uid="uid://bw50u5b4atcvu" path="res://Scripts/Earth.gd" id="1_cbl6o"]
 [ext_resource type="Texture2D" uid="uid://bg1opds3ehr18" path="res://Sprites/earth.png" id="2_b5ctf"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://cfu64xk4wnspb" path="res://Sprites/crosshair.png" id="6_2q7co"]
 [ext_resource type="Texture2D" uid="uid://cdkatodw1jxuc" path="res://Sprites/progress_circle.png" id="11_2q7co"]
 [ext_resource type="Script" uid="uid://8gmkrexj5v0q" path="res://Scripts/Earth/SatelliteCounter.gd" id="12_x2cgl"]
+[ext_resource type="FontFile" uid="uid://cnol65dwh80k5" path="res://Fonts/Audiowide-Regular.ttf" id="13_gt7t3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hanxx"]
 radius = 256.0
@@ -63,6 +64,7 @@ collision_mask = 0
 shape = SubResource("CircleShape2D_hanxx")
 
 [node name="Slingshot" type="Node2D" parent="."]
+z_index = 2
 script = ExtResource("3_jb6s3")
 
 [node name="Pivot" type="Node2D" parent="Slingshot"]
@@ -99,8 +101,13 @@ position = Vector2(100, 7)
 visible = false
 texture = ExtResource("6_2q7co")
 
-[node name="SatelliteCounter" type="TextureProgressBar" parent="."]
-z_index = -10
+[node name="SatelliteCounter" type="Node2D" parent="."]
+script = ExtResource("12_x2cgl")
+color1 = Color(1, 0.73, 0.1, 1)
+color2 = Color(0.544487, 0.92, 0.1932, 1)
+
+[node name="Progress" type="TextureProgressBar" parent="SatelliteCounter"]
+z_index = -1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -112,9 +119,35 @@ offset_right = 320.0
 offset_bottom = 320.0
 grow_horizontal = 2
 grow_vertical = 2
+step = 0.1
 fill_mode = 4
 texture_progress = ExtResource("11_2q7co")
-script = ExtResource("12_x2cgl")
+
+[node name="Timer" type="Timer" parent="SatelliteCounter"]
+
+[node name="Counter" type="Label" parent="SatelliteCounter"]
+z_index = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -77.5
+offset_top = -128.0
+offset_right = 77.5
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.392157)
+theme_override_constants/shadow_offset_x = 15
+theme_override_constants/shadow_offset_y = 8
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("13_gt7t3")
+theme_override_font_sizes/font_size = 200
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="mouse_entered" from="Area2D" to="." method="on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="on_area_2d_mouse_exited"]
+[connection signal="timeout" from="SatelliteCounter/Timer" to="SatelliteCounter" method="on_timer_timeout"]
