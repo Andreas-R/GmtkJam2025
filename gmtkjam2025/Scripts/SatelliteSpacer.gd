@@ -64,6 +64,5 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 
 func _on_area_2d_area_exited(_area: Area2D) -> void:
     _other_spacers.erase(_area.get_parent())
-    print("Spacer Exited: ", _other_spacers.size(), " left")
     if _other_spacers.size() == 0:
         _state = SpacingState.STEADY
