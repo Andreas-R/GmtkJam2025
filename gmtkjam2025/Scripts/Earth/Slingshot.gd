@@ -30,6 +30,11 @@ var target_saddle_pos: Vector2
 var shoot_tween: Tween
 var satellite: Satellite
 
+signal state_changed(new_state: SlingshotState)
+
+func _ready() -> void:
+    _change_state(SlingshotState.IDLE)
+
 func _process(_delta: float):
     match state:
         SlingshotState.IDLE:
@@ -89,7 +94,7 @@ func spawn_satellite():
     satellite.global_rotation = saddle.global_rotation
 
 func start_charging():
-    state = SlingshotState.AIMING
+    _change_state(SlingshotState.AIMING)
 
     reset_slingshot()
     show_slingshot()
@@ -98,7 +103,7 @@ func start_charging():
     earth.highlight(false)
 
 func start_shooting():
-    state = SlingshotState.SHOOTING
+    _change_state(SlingshotState.SHOOTING)
     
     crosshair.visible = false
     
@@ -125,13 +130,17 @@ func launch_satellite(orbit: Orbit):
     satellite = null
 
 func idle_slingshot():
-    state = SlingshotState.IDLE
+    _change_state(SlingshotState.IDLE)
 
     hide_slingshot()
     reset_slingshot()
 
     if earth.hovered:
         earth.highlight(true)
+
+func _change_state(new_state: SlingshotState):
+    state = new_state
+    state_changed.emit(new_state)
 
 func _input(event):
     if event is InputEventMouseButton:

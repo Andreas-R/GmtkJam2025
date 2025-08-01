@@ -3,6 +3,7 @@ class_name OrbitManager
 extends Node2D
 
 @onready var _orbit_prefab: PackedScene = preload("res://Prefabs/Orbit.tscn")
+@onready var _slingshot: Slingshot = $/root/Main/Earth/Slingshot
 
 @export var orbit_radius_offset: float = 200
 @export var orbit_radius_distance: float = 100
@@ -10,7 +11,6 @@ extends Node2D
 @export var min_satellite_spacing: float = 100.0
 
 var _orbits: Array
-var targeted_or
 
 func _ready() -> void:
     _orbits = get_children().filter(func(c): return c is Orbit)
@@ -29,6 +29,7 @@ func add_orbit() -> void:
     new_orbit.rotation_speed_deg = max(16 - _orbits.size() * 2, 1)
     new_orbit.set_collider_width(orbit_radius_distance)
     new_orbit.set_min_satellite_spacing(min_satellite_spacing)
+    _slingshot.state_changed.connect(new_orbit.on_slingshot_state_changed)
     add_child(new_orbit)
     _orbits.append(new_orbit)
 

@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://jxwaqtrcn11h" path="res://Prefabs/Earth.tscn" id="1_r150o"]
 [ext_resource type="PackedScene" uid="uid://w6xw3gch4kb6" path="res://Prefabs/OrbitManager.tscn" id="2_idj7w"]
 [ext_resource type="PackedScene" uid="uid://de0u73wtib4ax" path="res://Prefabs/Asteroids/AsteroidSpawner.tscn" id="4_pbw6q"]
-[ext_resource type="PackedScene" uid="uid://nobr0sqf3owg" path="res://Prefabs/UI.tscn" id="5_v1gob"]
+[ext_resource type="PackedScene" path="res://Prefabs/UI.tscn" id="5_v1gob"]
 
 [node name="Main" type="Node2D"]
 

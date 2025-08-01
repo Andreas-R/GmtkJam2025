@@ -5,6 +5,7 @@ class_name Orbit
 enum OrbitState {
     IDLE,
     DRAGGED,
+    HOVERED,
     TARGETTED
 }
 
@@ -22,18 +23,25 @@ enum OrbitState {
 @export_range(0, 360) var rotation_speed_deg: float = 20
 @export_group("Colours")
 @export var base_color: Color = Color.WHITE
-@export var hover_color: Color = Color.LIGHT_GRAY # TODO: Not yet in use
+@export var hover_color: Color = Color.LIGHT_GRAY 
 @export var drag_color: Color = Color.GRAY
 @export var target_color: Color = Color.LIGHT_SALMON
 @export_category("Satellite Properties")
 @export var min_satellite_spacing: float = 100.0
 
 var _collider_width: float = 100
+var _rotation_speed_multiplier: float = 1.0
 
 var _state: OrbitState
 var _local_rotation_speed_deg: float
+var _local_line_width: float
 var _last_mouse_angle: float
 var _color: Color = base_color
+
+var _is_hovered: bool = false
+var _hover_line_width_multiplier: float = 4.0
+var _hover_width_tween: Tween
+var _slingshot_state: Slingshot.SlingshotState
 
 func _ready():
     assert(_collider_width > 0)
@@ -41,6 +49,7 @@ func _ready():
     _state = OrbitState.IDLE
     _color = base_color
     _local_rotation_speed_deg = _get_base_rotation_speed()
+    _local_line_width = line_width
     _donut_collider.radius = radius
     _donut_collider.width = _collider_width
 
@@ -49,7 +58,7 @@ func _draw():
     var step = 360.0 / parts if parts == 1 else 360.0 / (parts * 2)
     var i = .0
     while i < 360.0:
-        draw_arc(position, radius, deg_to_rad(i), deg_to_rad(i + step), max((segments + 1.0) / parts, 2), _color, line_width, true)
+        draw_arc(position, radius, deg_to_rad(i), deg_to_rad(i + step), max((segments + 1.0) / parts, 2), _color, _local_line_width, true)
         i = i + step * 2
 
 func _process(delta: float) -> void:
@@ -62,7 +71,7 @@ func _process(delta: float) -> void:
             _last_mouse_angle = current_angle
             if Input.is_action_just_released("left_mouse_click"):
                 _change_state(OrbitState.IDLE)
-        OrbitState.TARGETTED, OrbitState.IDLE:
+        _:
             _local_rotation_speed_deg = lerpf(_local_rotation_speed_deg, _get_base_rotation_speed(), 0.05)
 
     _rotate(_local_rotation_speed_deg, delta)
@@ -72,7 +81,7 @@ func _rotate(speed_deg: float, delta: float) -> void:
     rotation += deg_to_rad(speed_deg) * delta
 
 func _get_base_rotation_speed() -> float:
-    return rotation_speed_deg * (1 if clockwise_rotation else -1)
+    return rotation_speed_deg * (1 if clockwise_rotation else -1) * _rotation_speed_multiplier
 
 func _on_input_event(_viewport: Viewport, event: InputEvent, _shape_idx: int):
     if event is InputEventMouseButton:
@@ -80,15 +89,34 @@ func _on_input_event(_viewport: Viewport, event: InputEvent, _shape_idx: int):
             _change_state(OrbitState.DRAGGED)
             _last_mouse_angle = get_local_mouse_position().rotated(-rotation).angle()
 
-func _change_state(state: OrbitState) -> void:
-    match state:
+func _change_state(new_state: OrbitState) -> void:
+    if new_state == _state:
+        return
+
+    match new_state:
         OrbitState.IDLE:
+            _reset_hover_state()
             get_tree().create_tween().tween_property(self, "_color", base_color, 0.1)
         OrbitState.DRAGGED:
+            _reset_hover_state()
             get_tree().create_tween().tween_property(self, "_color", drag_color, 0.1)
         OrbitState.TARGETTED:
+            _reset_hover_state()
             get_tree().create_tween().tween_property(self, "_color", target_color, 0.1)
-    _state = state
+        OrbitState.HOVERED:
+            if _state != OrbitState.IDLE:
+                # Cannot go into hovered state if not idle
+                return
+            get_tree().create_tween().tween_property(self, "_color", hover_color, 0.1)
+            _hover_width_tween = create_tween()
+            _hover_width_tween.tween_property(self, "_local_line_width", line_width * _hover_line_width_multiplier, 0.15)
+    _state = new_state
+
+func _reset_hover_state() -> void:
+    if _hover_width_tween != null and _hover_width_tween.is_running():
+        _hover_width_tween.kill()
+    _hover_width_tween = create_tween()
+    _hover_width_tween.tween_property(self, "_local_line_width", line_width, 0.1)
 
 func _get_configuration_warnings() -> PackedStringArray:
     if not get_children().any(func(c): return is_instance_of(c, DonutCollisionPolygon2D)):
@@ -120,3 +148,18 @@ func attach_satellite(attached_satellite: Satellite) -> void:
     satellite_spacer.set_spacing(min_satellite_spacing)
     attached_satellite.add_child(satellite_spacer)
     attached_satellite.reparent(_satellite_container)
+
+func on_slingshot_state_changed(slingshot_state: Slingshot.SlingshotState):
+    _slingshot_state = slingshot_state
+    if slingshot_state != Slingshot.SlingshotState.AIMING and _is_hovered:
+        _change_state(OrbitState.HOVERED)
+
+func _on_mouse_exited() -> void:
+    _is_hovered = false 
+    if _state == OrbitState.HOVERED:
+        _change_state(OrbitState.IDLE)
+
+func _on_mouse_entered() -> void:
+    _is_hovered = true
+    if _slingshot_state != Slingshot.SlingshotState.AIMING:
+        _change_state(OrbitState.HOVERED)
