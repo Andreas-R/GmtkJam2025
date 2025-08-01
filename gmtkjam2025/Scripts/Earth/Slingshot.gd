@@ -53,9 +53,7 @@ func _process(_delta: float):
 
 func _draw():
     if state == SlingshotState.AIMING:
-        var dir = (crosshair.global_position - saddle.global_position)
-        var dist = dir.length()
-        draw_dashed_line(saddle.global_position, crosshair.global_position - (dir / dist) * min(dist, 50), Color.RED, 10, 30, false, true)
+        draw_dashed_line(saddle.global_position, crosshair.global_position, Color.RED, 10, 30, false, true)
 
 func reset_slingshot():
     pivot.rotation = 0
@@ -102,7 +100,11 @@ func start_charging():
 func start_shooting():
     state = SlingshotState.SHOOTING
     
+    crosshair.visible = false
+    
     satelliteCounter.decrease_counter()
+
+    orbitManager.target_orbit(null)
 
     target_saddle_pos = saddle.position * -0.75
     var orbit := orbitManager.get_closest_orbit(crosshair.global_position)

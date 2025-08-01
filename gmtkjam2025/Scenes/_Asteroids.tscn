@@ -1,13 +1,55 @@
-[gd_scene load_steps=4 format=3 uid="uid://crwvhx17ps27p"]
+[gd_scene load_steps=9 format=3 uid="uid://crwvhx17ps27p"]
 
 [ext_resource type="PackedScene" uid="uid://jxwaqtrcn11h" path="res://Prefabs/Earth.tscn" id="1_14jdv"]
+[ext_resource type="Texture2D" uid="uid://custneasqiux7" path="res://Sprites/star_1.png" id="1_a21cb"]
 [ext_resource type="PackedScene" uid="uid://w6xw3gch4kb6" path="res://Prefabs/OrbitManager.tscn" id="2_a21cb"]
+[ext_resource type="Texture2D" uid="uid://bs6lf46xvrxr7" path="res://Sprites/star_2.png" id="2_sm5vq"]
 [ext_resource type="PackedScene" uid="uid://de0u73wtib4ax" path="res://Prefabs/Asteroids/AsteroidSpawner.tscn" id="3_sm5vq"]
+
+[sub_resource type="Gradient" id="Gradient_a21cb"]
+offsets = PackedFloat32Array(0, 0.1, 0.9, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_sm5vq"]
+offsets = PackedFloat32Array(0.00643087, 1)
+colors = PackedColorArray(0.224, 0.244533, 0.4, 1, 0.4, 0.4, 0.4, 1)
+
+[sub_resource type="Gradient" id="Gradient_8yga3"]
+offsets = PackedFloat32Array(0.00643087, 1)
+colors = PackedColorArray(0.224, 0.244533, 0.4, 1, 0.4, 0.4, 0.4, 1)
 
 [node name="Main" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)
+
+[node name="SmallStarsParticleSystem" type="CPUParticles2D" parent="Camera2D"]
+z_index = -100
+amount = 2000
+texture = ExtResource("1_a21cb")
+lifetime = 10.0
+preprocess = 10.0
+emission_shape = 3
+emission_rect_extents = Vector2(4000, 3000)
+gravity = Vector2(0, 0)
+scale_amount_min = 0.2
+scale_amount_max = 0.5
+color_ramp = SubResource("Gradient_a21cb")
+color_initial_ramp = SubResource("Gradient_sm5vq")
+
+[node name="CrossStarsParticleSystem" type="CPUParticles2D" parent="Camera2D"]
+z_index = -100
+amount = 200
+texture = ExtResource("2_sm5vq")
+lifetime = 10.0
+preprocess = 10.0
+emission_shape = 3
+emission_rect_extents = Vector2(4000, 3000)
+gravity = Vector2(0, 0)
+scale_amount_min = 0.5
+color_ramp = SubResource("Gradient_a21cb")
+color_initial_ramp = SubResource("Gradient_8yga3")
 
 [node name="Earth" parent="." instance=ExtResource("1_14jdv")]
 
