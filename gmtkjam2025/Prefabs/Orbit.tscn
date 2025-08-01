@@ -1,16 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://cd4y56l75yr13"]
+[gd_scene load_steps=5 format=3 uid="uid://cd4y56l75yr13"]
 
 [ext_resource type="Script" uid="uid://b8qglwa256lg8" path="res://Scripts/Orbit.gd" id="1_1fuu5"]
 [ext_resource type="Script" uid="uid://dw65305324iwv" path="res://Scripts/OrbitOutline.gd" id="2_1fuu5"]
 [ext_resource type="Script" uid="uid://b34sml2qw4v2c" path="res://addons/donut_collision_polygon2D/donut_collision_polygon2D.gd" id="2_03wf0"]
+[ext_resource type="Script" uid="uid://cook7kkhwn8hg" path="res://Scripts/Orbit/SatelliteTargets.gd" id="4_03wf0"]
 
-[node name="Orbit" type="Area2D" node_paths=PackedStringArray("_orbit_outline")]
+[node name="Orbit" type="Area2D" node_paths=PackedStringArray("_orbit_outline", "_satellite_targets")]
 rotation = 109.597
 script = ExtResource("1_1fuu5")
 _orbit_outline = NodePath("Outline")
+_satellite_targets = NodePath("SatelliteTargets")
 
 [node name="Outline" type="Node2D" parent="."]
-rotation = 29.2584
+rotation = 161.886
 script = ExtResource("2_1fuu5")
 
 [node name="DonutCollider" type="CollisionPolygon2D" parent="."]
@@ -20,6 +22,9 @@ radius = 200.0
 width = 100.0
 quality = 64
 metadata/_custom_type_script = "uid://b34sml2qw4v2c"
+
+[node name="SatelliteTargets" type="Node2D" parent="."]
+script = ExtResource("4_03wf0")
 
 [node name="Satellites" type="Node2D" parent="."]
 

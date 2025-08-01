@@ -17,7 +17,7 @@ extends Node2D
 @export var drag_color: Color = Color.GRAY
 @export var target_color: Color = Color.LIGHT_SALMON
 
-var _rotation_speed_multiplier: float = 0.0
+var _rotation_speed_multiplier: float = 1.0
 var _local_rotation_speed_deg: float
 var _local_line_width: float
 
@@ -36,9 +36,7 @@ func _draw():
         draw_arc(position, radius, deg_to_rad(i), deg_to_rad(i + step), max((segments + 1.0) / parts, 2), _color, _local_line_width, true)
         i = i + step * 2
 
-func _process(delta: float) -> void:
-    _local_rotation_speed_deg = lerpf(_local_rotation_speed_deg, _get_base_rotation_speed(), 0.05)
-    _rotate(_local_rotation_speed_deg, delta)
+func _process(_delta: float) -> void:
     queue_redraw()
 
 func _rotate(speed_deg: float, delta: float) -> void:
@@ -48,10 +46,10 @@ func _get_base_rotation_speed() -> float:
     return rotation_speed_deg * (1 if clockwise_rotation else -1) * _rotation_speed_multiplier
 
 func stop_rotation() -> void:
-    _rotation_speed_multiplier = -1.0
+    _rotation_speed_multiplier = 0.0
 
 func slow_rotation() -> void:
-    _rotation_speed_multiplier = -0.8
+    _rotation_speed_multiplier = 0.2
 
 func start_rotation() -> void:
-    _rotation_speed_multiplier = 0.0
+    _rotation_speed_multiplier = 1.0

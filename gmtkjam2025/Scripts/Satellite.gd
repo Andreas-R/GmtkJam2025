@@ -34,7 +34,7 @@ func _process(delta: float):
             global_rotation = global_position.angle() + PI / 2
 
             if !is_approaching_target_position and dist < 150:
-                target_node.reparent(target_orbit)
+                target_node.reparent(target_orbit._satellite_targets)
                 is_approaching_target_position = true
             if abs(target_orbit.radius - global_position.length()) < 20:
                 target_orbit.attach_satellite(self)
@@ -59,4 +59,6 @@ func destroy():
     var explosion := explosion_prefab.instantiate() as Explosion
     main.add_child(explosion)
     explosion.global_position = global_position
+    if target_node != null:
+        target_node.queue_free()
     queue_free()
