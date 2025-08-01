@@ -48,7 +48,6 @@ func _process(_delta: float):
     queue_redraw()
 
 func _draw():
-    print("AAAA")
     if state == SlingshotState.CHARGING:
         draw_dashed_line(saddle.global_position, crosshair.global_position, Color.RED, 10, 30, false, true)
 
