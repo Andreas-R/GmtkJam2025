@@ -10,7 +10,7 @@ extends Node2D
 @onready var counterLabel: Label = $CounterPivot/CounterLabel
 @onready var progress: TextureProgressBar = $Progress
 
-var satelliteCount: int = 1;
+var satelliteCount: int = 100;
 var spawn_time: float = 5;
 var wobble_tween: Tween
 

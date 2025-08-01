@@ -30,7 +30,7 @@ func spawn_asteroid_indicator():
     if number_of_orbits <= 1:
         max_dist = min_dist
     else:
-        max_dist = orbitManager.orbit_radius_offset + (number_of_orbits - 1.5) * orbitManager.orbit_radius_distance
+        max_dist = orbitManager.orbit_radius_offset + (floori(number_of_orbits * 0.5) - 0.5) * orbitManager.orbit_radius_distance
 
     var rand_dist = randf_range(min_dist, max_dist)
     var rand_angle = last_angle + randf_range(PI * 0.25, PI * 1.75)
