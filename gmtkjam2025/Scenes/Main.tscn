@@ -1,12 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://bja7h30rfjpk8"]
+[gd_scene load_steps=6 format=3 uid="uid://bja7h30rfjpk8"]
 
+[ext_resource type="PackedScene" uid="uid://bryjkwbk1skmu" path="res://Prefabs/Camera2D.tscn" id="1_kln2b"]
 [ext_resource type="PackedScene" uid="uid://jxwaqtrcn11h" path="res://Prefabs/Earth.tscn" id="1_r150o"]
 [ext_resource type="PackedScene" uid="uid://w6xw3gch4kb6" path="res://Prefabs/OrbitManager.tscn" id="2_idj7w"]
+[ext_resource type="PackedScene" uid="uid://de0u73wtib4ax" path="res://Prefabs/Asteroids/AsteroidSpawner.tscn" id="4_pbw6q"]
+[ext_resource type="PackedScene" uid="uid://nobr0sqf3owg" path="res://Prefabs/UI.tscn" id="5_v1gob"]
 
 [node name="Main" type="Node2D"]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.5, 0.5)
+[node name="Camera2D" parent="." instance=ExtResource("1_kln2b")]
 
 [node name="Earth" parent="." instance=ExtResource("1_r150o")]
 
@@ -14,3 +16,7 @@ zoom = Vector2(0.5, 0.5)
 orbit_radius_offset = 500.0
 orbit_radius_distance = 250.0
 initial_orbits = 3
+
+[node name="AsteroidSpawner" parent="." instance=ExtResource("4_pbw6q")]
+
+[node name="UI" parent="." instance=ExtResource("5_v1gob")]
