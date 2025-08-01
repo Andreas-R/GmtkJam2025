@@ -17,9 +17,9 @@ config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width=1200
-window/size/viewport_height=800
-window/stretch/mode="viewport"
+window/size/viewport_width=1600
+window/size/viewport_height=1200
+window/stretch/mode="canvas_items"
 
 [input]
 
@@ -33,6 +33,7 @@ left_mouse_click={
 
 2d_physics/layer_1="satellite"
 2d_physics/layer_2="astroid"
+2d_physics/layer_3="earth"
 
 [rendering]
 
