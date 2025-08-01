@@ -27,6 +27,7 @@ enum OrbitState {
 @export var target_color: Color = Color.LIGHT_SALMON
 @export_category("Satellite Properties")
 @export var min_satellite_spacing: float = 100.0
+@export var orbit_index: int = 0
 
 var _collider_width: float = 100
 
@@ -120,3 +121,4 @@ func attach_satellite(attached_satellite: Satellite) -> void:
     satellite_spacer.set_spacing(min_satellite_spacing)
     attached_satellite.add_child(satellite_spacer)
     attached_satellite.reparent(_satellite_container)
+    satellite_spacer.set_orbit_index(orbit_index)

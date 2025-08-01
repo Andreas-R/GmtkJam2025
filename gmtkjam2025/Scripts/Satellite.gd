@@ -36,3 +36,9 @@ func target(pos: Vector2, orbit: Orbit):
     target_pos = pos
     target_orbit = orbit
     state = SatelliteState.TARGETING
+
+func damage():
+    destroy()
+
+func destroy():
+    queue_free()

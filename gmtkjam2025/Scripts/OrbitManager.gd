@@ -29,6 +29,7 @@ func add_orbit() -> void:
     new_orbit.rotation_speed_deg = max(16 - _orbits.size() * 2, 1)
     new_orbit.set_collider_width(orbit_radius_distance)
     new_orbit.set_min_satellite_spacing(min_satellite_spacing)
+    new_orbit.orbit_index = _orbits.size()
     add_child(new_orbit)
     _orbits.append(new_orbit)
 
