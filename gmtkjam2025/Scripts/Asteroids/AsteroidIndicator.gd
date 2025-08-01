@@ -2,8 +2,6 @@ class_name AsteroidIndicator
 
 extends Node2D
 
-static var asteroid_prefab: PackedScene = load("res://Prefabs/Asteroids/Asteroid.tscn") as PackedScene
-
 @onready var indicator: Sprite2D = $Indicator
 @onready var asteroid: Asteroid = $Asteroid
 

@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://5i7qacmod2rs"]
+
+[ext_resource type="Texture2D" uid="uid://cc28yn4kaeg58" path="res://Sprites/fire_particle.png" id="1_1s0l5"]
+[ext_resource type="Script" uid="uid://b058bk3xfkp05" path="res://Scripts/Explosion.gd" id="1_ps13k"]
+
+[sub_resource type="Curve" id="Curve_kxg0n"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.83086, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_ps13k"]
+offsets = PackedFloat32Array(0, 0.270096, 0.572347, 0.787781, 1)
+colors = PackedColorArray(1, 0.766667, 0, 1, 0.947849, 0.539579, 3.85046e-07, 1, 0.95, 0.253333, 0, 1, 0.35, 0.0933333, 0, 1, 0.23, 0.0613333, 0, 1)
+
+[node name="Explosion" type="Node2D"]
+script = ExtResource("1_ps13k")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 30
+texture = ExtResource("1_1s0l5")
+lifetime = 1.5
+one_shot = true
+explosiveness = 0.6
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 75.0
+damping_max = 50.0
+scale_amount_min = 0.5
+scale_amount_curve = SubResource("Curve_kxg0n")
+color_ramp = SubResource("Gradient_ps13k")
+
+[connection signal="finished" from="CPUParticles2D" to="." method="on_cpu_particles_2d_finished"]

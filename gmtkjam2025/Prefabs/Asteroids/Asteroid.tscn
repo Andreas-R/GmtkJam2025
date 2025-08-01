@@ -13,7 +13,7 @@ offsets = PackedFloat32Array(0, 0.533762, 1)
 colors = PackedColorArray(1, 0.766667, 0, 1, 0.947849, 0.539579, 3.85046e-07, 1, 0.95, 0.253333, 0, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sd8hf"]
-radius = 61.0737
+radius = 57.0
 
 [node name="Asteroid" type="Node2D"]
 script = ExtResource("1_sd8hf")
