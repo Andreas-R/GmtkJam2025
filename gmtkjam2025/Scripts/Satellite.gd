@@ -8,8 +8,12 @@ enum SatelliteState {
     IN_ORBIT,
 }
 
+static var explosion_prefab: PackedScene = load("res://Prefabs/Explosion.tscn") as PackedScene
+
 @export var speed_factor: float = 1.5
 @export var min_speed: float = 100
+
+@onready var main: Node2D = $/root/Main
 
 var state: SatelliteState = SatelliteState.IDLE
 
@@ -36,3 +40,12 @@ func target(pos: Vector2, orbit: Orbit):
     target_pos = pos
     target_orbit = orbit
     state = SatelliteState.TARGETING
+
+func damage():
+    destroy()
+
+func destroy():
+    var explosion := explosion_prefab.instantiate() as Explosion
+    main.add_child(explosion)
+    explosion.global_position = global_position
+    queue_free()

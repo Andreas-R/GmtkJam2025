@@ -23,11 +23,12 @@ enum OrbitState {
 @export_range(0, 360) var rotation_speed_deg: float = 20
 @export_group("Colours")
 @export var base_color: Color = Color.WHITE
-@export var hover_color: Color = Color.LIGHT_GRAY 
+@export var hover_color: Color = Color.LIGHT_GRAY
 @export var drag_color: Color = Color.GRAY
 @export var target_color: Color = Color.LIGHT_SALMON
 @export_category("Satellite Properties")
 @export var min_satellite_spacing: float = 100.0
+@export var orbit_index: int = 0
 
 var _collider_width: float = 100
 var _rotation_speed_multiplier: float = 1.0
@@ -148,6 +149,7 @@ func attach_satellite(attached_satellite: Satellite) -> void:
     satellite_spacer.set_spacing(min_satellite_spacing)
     attached_satellite.add_child(satellite_spacer)
     attached_satellite.reparent(_satellite_container)
+    satellite_spacer.set_orbit_index(orbit_index)
 
 func on_slingshot_state_changed(slingshot_state: Slingshot.SlingshotState):
     _slingshot_state = slingshot_state
@@ -155,7 +157,7 @@ func on_slingshot_state_changed(slingshot_state: Slingshot.SlingshotState):
         _change_state(OrbitState.HOVERED)
 
 func _on_mouse_exited() -> void:
-    _is_hovered = false 
+    _is_hovered = false
     if _state == OrbitState.HOVERED:
         _change_state(OrbitState.IDLE)
 

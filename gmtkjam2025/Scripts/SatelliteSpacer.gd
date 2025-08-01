@@ -27,7 +27,6 @@ func _ready() -> void:
     #assert(get_parent() is Satellite) # TODO: Activate once testing done
     _parent_satellite = get_parent()
     _state = SpacingState.STEADY
-    set_orbit_index(1) # TODO: Remove
 
 func _process(delta: float) -> void:
     match _state:
