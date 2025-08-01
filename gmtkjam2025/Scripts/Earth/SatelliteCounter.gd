@@ -6,7 +6,8 @@ extends Node2D
 @export var color2: Color = Color.GREEN
 
 @onready var timer: Timer = $Timer
-@onready var counterLabel: Label = $Counter
+@onready var counterPivot: Node2D = $CounterPivot
+@onready var counterLabel: Label = $CounterPivot/CounterLabel
 @onready var progress: TextureProgressBar = $Progress
 
 var satelliteCount: int = 0;
@@ -36,9 +37,9 @@ func wobble():
         wobble_tween.kill()
     wobble_tween = create_tween().set_ease(Tween.EASE_IN_OUT)
 
-    wobble_tween.tween_property(self, "scale", Vector2(1.5, 1.5), 0.1)
-    wobble_tween.tween_property(self, "scale", Vector2(0.75, 0.75), 0.1)
-    wobble_tween.tween_property(self, "scale", Vector2(1, 1), 0.1)
+    wobble_tween.tween_property(counterPivot, "scale", Vector2(1.5, 1.5), 0.1)
+    wobble_tween.tween_property(counterPivot, "scale", Vector2(0.75, 0.75), 0.1)
+    wobble_tween.tween_property(counterPivot, "scale", Vector2(1, 1), 0.1)
 
 func update_counter():
     counterLabel.text = str(satelliteCount)
