@@ -6,7 +6,7 @@ class_name OrbitManager
 
 @export var orbit_radius_offset: float = 200
 @export var orbit_radius_distance: float = 100
-@export_range(1, INF) var initial_orbits: int = 2
+@export_range(1, 20) var initial_orbits: int = 2
 
 var _orbits: Array
 
