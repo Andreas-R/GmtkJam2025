@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://cfu64xk4wnspb" path="res://Sprites/crosshair.png" id="6_2q7co"]
 [ext_resource type="Texture2D" uid="uid://cdkatodw1jxuc" path="res://Sprites/progress_circle.png" id="11_2q7co"]
 [ext_resource type="Script" uid="uid://8gmkrexj5v0q" path="res://Scripts/Earth/SatelliteCounter.gd" id="12_x2cgl"]
-[ext_resource type="FontFile" uid="uid://cnol65dwh80k5" path="res://Fonts/Audiowide-Regular.ttf" id="13_gt7t3"]
+[ext_resource type="FontFile" uid="uid://d2wc1u7ejmb4c" path="res://Fonts/Protomolecule.otf" id="13_gt7t3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hanxx"]
 radius = 256.0
