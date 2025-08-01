@@ -8,7 +8,9 @@ enum OrbitState {
     TARGETTED
 }
 
+@onready var _satellite_spacer_prefab: PackedScene = preload("res://Prefabs/SatelliteSpacer.tscn")
 @onready var _donut_collider: DonutCollisionPolygon2D = $DonutCollider
+@onready var _satellite_container: Node = $Satellites
 
 @export_category("Circle Properties")
 @export var radius: float = 200
@@ -24,9 +26,9 @@ enum OrbitState {
 @export var drag_color: Color = Color.GRAY
 @export var target_color: Color = Color.LIGHT_SALMON
 @export_category("Satellite Properties")
-@export var min_satellite_spacing: float = 3.0
+@export var min_satellite_spacing: float = 100.0
 
-var _collider_width
+var _collider_width: float = 100
 
 var _state: OrbitState
 var _local_rotation_speed_deg: float
@@ -110,5 +112,11 @@ func untarget() -> void:
     if _state != OrbitState.DRAGGED:
         _change_state(OrbitState.IDLE)
 
-func attach_satellite(satellite_node: Node) -> void:
-    satellite_node.reparent(self)
+func set_min_satellite_spacing(spacing: float) -> void:
+    min_satellite_spacing = spacing
+
+func attach_satellite(attached_satellite: Satellite) -> void:
+    var satellite_spacer: SatelliteSpacer = _satellite_spacer_prefab.instantiate()
+    satellite_spacer.set_spacing(min_satellite_spacing)
+    attached_satellite.add_child(satellite_spacer)
+    attached_satellite.reparent(_satellite_container)

@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://b34sml2qw4v2c" path="res://addons/donut_collision_polygon2D/donut_collision_polygon2D.gd" id="2_03wf0"]
 
 [node name="Orbit" type="Area2D"]
-rotation = 29.3503
+rotation = 82.6346
 script = ExtResource("1_1fuu5")
 
 [node name="DonutCollider" type="CollisionPolygon2D" parent="."]
