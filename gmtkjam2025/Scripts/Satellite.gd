@@ -14,6 +14,7 @@ enum SatelliteState {
 var state: SatelliteState = SatelliteState.IDLE
 
 var target_pos: Vector2
+var target_orbit: Orbit
 var speed: float = 0
 
 func _process(delta: float):
@@ -26,11 +27,12 @@ func _process(delta: float):
             global_position = global_position.move_toward(target_pos, speed * delta)
 
             if dist < 0.001:
-                # TODO search nearest orbit
+                target_orbit.attach_satellite(self)
                 state = SatelliteState.IN_ORBIT
         SatelliteState.IN_ORBIT:
             pass
 
-func target(pos: Vector2):
+func target(pos: Vector2, orbit: Orbit):
     target_pos = pos
+    target_orbit = orbit
     state = SatelliteState.TARGETING

@@ -9,6 +9,7 @@ class_name OrbitManager
 @export_range(1, 20) var initial_orbits: int = 2
 
 var _orbits: Array
+var targeted_or
 
 func _ready() -> void:
 	_orbits = get_children().filter(func(c): return c is Orbit).map(func(c): return c.get_typed_script() as Orbit)
@@ -17,11 +18,12 @@ func _ready() -> void:
 			add_orbit()
 
 func _process(_delta: float) -> void:
-	if _orbits.size() > 0:
-		var closest_orbit = get_closest_orbit(get_global_mouse_position()) # TODO: Remove test lines
-		for non_targets in _orbits.filter(func(c): return c != closest_orbit):
-			non_targets.untarget()
-		closest_orbit.target()
+	pass
+	# if _orbits.size() > 0:
+	# 	var closest_orbit = get_closest_orbit(get_global_mouse_position()) # TODO: Remove test lines
+	# 	for non_targets in _orbits.filter(func(c): return c != closest_orbit):
+	# 		non_targets.untarget()
+	# 	closest_orbit.target()
 
 
 func add_orbit() -> void:
@@ -35,3 +37,10 @@ func get_closest_orbit(target_position: Vector2) -> Orbit:
 	var orbit_index = round(max(global_position.distance_to(target_position) - orbit_radius_offset, 0) / orbit_radius_distance)
 	var closest_orbit = _orbits.get(clamp(orbit_index, 0, _orbits.size() - 1))
 	return closest_orbit
+
+func target_orbit(target: Orbit) -> void:
+	for orbit: Orbit in _orbits:
+		if orbit == target:
+			orbit.target()
+		else:
+			orbit.untarget()

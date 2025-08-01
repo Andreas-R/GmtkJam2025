@@ -92,12 +92,18 @@ func set_collider_width(collider_width: float) -> void:
     _collider_width = collider_width
 
 func target() -> void:
+    if _state == OrbitState.TARGETTED:
+        return
+
     if _state != OrbitState.DRAGGED:
         _change_state(OrbitState.TARGETTED)
 
 func untarget() -> void:
+    if _state != OrbitState.TARGETTED:
+        return
+
     if _state != OrbitState.DRAGGED:
         _change_state(OrbitState.IDLE)
 
 func attach_satellite(satellite_node: Node) -> void:
-    add_child(satellite_node)
+    satellite_node.reparent(self)

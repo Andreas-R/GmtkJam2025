@@ -4,7 +4,7 @@ extends Node2D
 
 enum SlingshotState {
     IDLE,
-    CHARGING,
+    AIMING,
     SHOOTING,
 }
 
@@ -13,6 +13,7 @@ static var satellite_prefab: PackedScene = load("res://Prefabs/Satellite.tscn") 
 @export var max_charge_dist = 300
 
 @onready var main: Node2D = $/root/Main
+@onready var orbitManager: OrbitManager = $/root/Main/OrbitManager
 @onready var earth: Earth = get_parent()
 @onready var pivot: Node2D = $Pivot
 @onready var saddle: Node2D = $Pivot/Saddle
@@ -33,7 +34,7 @@ func _process(_delta: float):
     match state:
         SlingshotState.IDLE:
             pass
-        SlingshotState.CHARGING:
+        SlingshotState.AIMING:
             var mouse_world_pos = get_global_mouse_position()
             var dir = global_position - mouse_world_pos
             var dist = min(max_charge_dist, dir.length())
@@ -41,7 +42,9 @@ func _process(_delta: float):
             saddle.position = Vector2(0, dist)
             place_band(band_1, band_1_end)
             place_band(band_2, band_2_end)
-            crosshair.global_position = global_position + dir.normalized() * dist * 5
+            var orbit := orbitManager.get_closest_orbit(global_position + dir.normalized() * dist * 5)
+            crosshair.global_position = global_position + dir.normalized() * orbit.radius
+            orbitManager.target_orbit(orbit)
         SlingshotState.SHOOTING:
             place_band(band_1, band_1_end)
             place_band(band_2, band_2_end)
@@ -49,7 +52,7 @@ func _process(_delta: float):
     queue_redraw()
 
 func _draw():
-    if state == SlingshotState.CHARGING:
+    if state == SlingshotState.AIMING:
         draw_dashed_line(saddle.global_position, crosshair.global_position, Color.RED, 10, 30, false, true)
 
 func reset_slingshot():
@@ -86,7 +89,7 @@ func spawn_satellite():
     satellite.global_rotation = saddle.global_rotation
 
 func start_charging():
-    state = SlingshotState.CHARGING
+    state = SlingshotState.AIMING
 
     reset_slingshot()
     show_slingshot()
@@ -97,23 +100,24 @@ func start_charging():
 func start_shooting():
     state = SlingshotState.SHOOTING
     
-    satelliteCounter.decreate_counter()
+    satelliteCounter.decrease_counter()
 
     target_saddle_pos = saddle.position * -0.75
+    var orbit := orbitManager.get_closest_orbit(crosshair.global_position)
     
     if shoot_tween != null:
         shoot_tween.kill()
     shoot_tween = create_tween().set_ease(Tween.EASE_IN)
     shoot_tween.tween_property(saddle, "position", target_saddle_pos, 0.15)
-    shoot_tween.tween_callback(launch_satellite)
+    shoot_tween.tween_callback(func(): launch_satellite(orbit))
     shoot_tween.tween_property(saddle, "position", target_saddle_pos * -0.5, 0.15)
     shoot_tween.tween_property(saddle, "position", target_saddle_pos * 0.25, 0.15)
     shoot_tween.tween_property(saddle, "position", Vector2.ZERO, 0.15)
     shoot_tween.tween_callback(idle_slingshot)
 
-func launch_satellite():
+func launch_satellite(orbit: Orbit):
     satellite.reparent(main)
-    satellite.target(crosshair.global_position)
+    satellite.target(crosshair.global_position, orbit)
     satellite = null
 
 func idle_slingshot():
@@ -132,5 +136,5 @@ func _input(event):
         if mouse_event.button_index == MOUSE_BUTTON_LEFT:
             if mouse_event.pressed && state == SlingshotState.IDLE && earth.hovered && satelliteCounter.satelliteCount > 0:
                 start_charging()
-            elif !mouse_event.pressed && state == SlingshotState.CHARGING:
+            elif !mouse_event.pressed && state == SlingshotState.AIMING:
                 start_shooting()

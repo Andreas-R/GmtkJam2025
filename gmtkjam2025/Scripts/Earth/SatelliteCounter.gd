@@ -10,7 +10,7 @@ extends Node2D
 @onready var counterLabel: Label = $CounterPivot/CounterLabel
 @onready var progress: TextureProgressBar = $Progress
 
-var satelliteCount: int = 0;
+var satelliteCount: int = 1;
 var spawnTime: float = 5;
 var wobble_tween: Tween
 
@@ -44,6 +44,6 @@ func wobble():
 func update_counter():
     counterLabel.text = str(satelliteCount)
 
-func decreate_counter():
+func decrease_counter():
     satelliteCount -= 1
     counterLabel.text = str(satelliteCount)

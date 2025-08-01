@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ey2wgsswx3cr"]
 
 [ext_resource type="Texture2D" uid="uid://51fof174u8kn" path="res://Sprites/orbit.png" id="1_2tbx1"]
-[ext_resource type="Script" uid="uid://lo8skv2fyfyl" path="res://Scenes/OrbitManager.gd" id="2_6yoey"]
+[ext_resource type="PackedScene" uid="uid://6f3mt2biylhl" path="res://Prefabs/OrbitManager.tscn" id="2_8ufsd"]
 
 [node name="Orbits" type="Node2D"]
 
@@ -10,6 +10,5 @@ modulate = Color(1, 1, 1, 0.254902)
 position = Vector2(600, 389)
 texture = ExtResource("1_2tbx1")
 
-[node name="Center" type="Node2D" parent="."]
+[node name="Center" parent="." instance=ExtResource("2_8ufsd")]
 position = Vector2(590, 395)
-script = ExtResource("2_6yoey")
