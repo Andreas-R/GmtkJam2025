@@ -42,6 +42,8 @@ func target(pos: Vector2, orbit: Orbit):
     state = SatelliteState.TARGETING
 
 func damage():
+    if state == SatelliteState.IDLE:
+        return
     destroy()
 
 func destroy():
