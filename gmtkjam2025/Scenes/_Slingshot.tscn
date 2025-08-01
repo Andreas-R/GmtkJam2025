@@ -1,69 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://ct2tuyxiuuql5"]
+[gd_scene load_steps=2 format=3 uid="uid://ct2tuyxiuuql5"]
 
-[ext_resource type="Script" uid="uid://bw50u5b4atcvu" path="res://Scripts/Earth.gd" id="1_058ms"]
-[ext_resource type="Texture2D" uid="uid://bg1opds3ehr18" path="res://Sprites/earth.png" id="1_hanxx"]
-[ext_resource type="Script" uid="uid://b05irphxoyge8" path="res://Scripts/Slingshot.gd" id="3_1x5mn"]
-[ext_resource type="Texture2D" uid="uid://6cviwxbm16yi" path="res://Sprites/slingshot.png" id="4_r6f5a"]
-[ext_resource type="Texture2D" uid="uid://dqc0jt88oe0ra" path="res://Sprites/pixel.png" id="5_1215w"]
-[ext_resource type="Texture2D" uid="uid://cfu64xk4wnspb" path="res://Sprites/crosshair.png" id="5_g0sen"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_hanxx"]
-radius = 256.0
+[ext_resource type="PackedScene" uid="uid://jxwaqtrcn11h" path="res://Prefabs/Earth.tscn" id="1_hanxx"]
 
 [node name="Main" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)
 
-[node name="Earth" type="Node2D" parent="."]
-script = ExtResource("1_058ms")
-
-[node name="Sprite2D" type="Sprite2D" parent="Earth"]
-texture = ExtResource("1_hanxx")
-
-[node name="Area2D" type="Area2D" parent="Earth"]
-collision_layer = 4
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Earth/Area2D"]
-shape = SubResource("CircleShape2D_hanxx")
-
-[node name="Slingshot" type="Node2D" parent="Earth"]
-script = ExtResource("3_1x5mn")
-
-[node name="Pivot" type="Node2D" parent="Earth/Slingshot"]
-
-[node name="Band1" type="Sprite2D" parent="Earth/Slingshot/Pivot"]
-visible = false
-modulate = Color(0.43, 0.321138, 0.2193, 1)
-position = Vector2(-233, 0)
-scale = Vector2(15, 1e-05)
-texture = ExtResource("5_1215w")
-offset = Vector2(0, 0.5)
-
-[node name="Band2" type="Sprite2D" parent="Earth/Slingshot/Pivot"]
-visible = false
-modulate = Color(0.43, 0.321138, 0.2193, 1)
-position = Vector2(233, 0)
-scale = Vector2(15, 1e-05)
-texture = ExtResource("5_1215w")
-offset = Vector2(0, 0.5)
-
-[node name="Saddle" type="Sprite2D" parent="Earth/Slingshot/Pivot"]
-visible = false
-texture = ExtResource("4_r6f5a")
-
-[node name="Band1End" type="Node2D" parent="Earth/Slingshot/Pivot/Saddle"]
-modulate = Color(0.43, 0.321138, 0.2193, 1)
-position = Vector2(-100, 7)
-
-[node name="Band2End" type="Node2D" parent="Earth/Slingshot/Pivot/Saddle"]
-modulate = Color(0.43, 0.321138, 0.2193, 1)
-position = Vector2(100, 7)
-
-[node name="Crosshair" type="Sprite2D" parent="Earth/Slingshot"]
-visible = false
-texture = ExtResource("5_g0sen")
-
-[connection signal="mouse_entered" from="Earth/Area2D" to="Earth" method="on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="Earth/Area2D" to="Earth" method="on_area_2d_mouse_exited"]
+[node name="Earth" parent="." instance=ExtResource("1_hanxx")]
