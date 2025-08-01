@@ -33,7 +33,7 @@ color_initial_ramp = SubResource("Gradient_sm5vq")
 
 [node name="CrossStarsParticleSystem" type="CPUParticles2D" parent="."]
 z_index = -100
-amount = 300
+amount = 200
 texture = ExtResource("2_63k0p")
 lifetime = 10.0
 preprocess = 10.0
