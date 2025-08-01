@@ -48,8 +48,9 @@ func _process(_delta: float):
             place_band(band_1, band_1_end)
             place_band(band_2, band_2_end)
             var orbit := orbitManager.get_closest_orbit(global_position + dir.normalized() * dist * 5)
-            crosshair.global_position = global_position + dir.normalized() * orbit.radius
-            orbitManager.target_orbit(orbit)
+            if orbit != null:
+                crosshair.global_position = global_position + dir.normalized() * orbit.radius
+                orbitManager.target_orbit(orbit)
         SlingshotState.SHOOTING:
             place_band(band_1, band_1_end)
             place_band(band_2, band_2_end)
@@ -126,7 +127,8 @@ func start_shooting():
 
 func launch_satellite(orbit: Orbit):
     satellite.reparent(main)
-    satellite.target(crosshair.global_position, orbit)
+    if orbit != null:
+        satellite.target(crosshair.global_position, orbit)
     satellite = null
 
 func idle_slingshot():

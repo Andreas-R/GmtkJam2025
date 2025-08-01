@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bryjkwbk1skmu"]
+[gd_scene load_steps=7 format=3 uid="uid://bryjkwbk1skmu"]
 
 [ext_resource type="Texture2D" uid="uid://custneasqiux7" path="res://Sprites/star_1.png" id="1_0drfo"]
+[ext_resource type="Script" uid="uid://c32kbhr2fcshf" path="res://Scripts/CameraController.gd" id="1_kf85d"]
 [ext_resource type="Texture2D" uid="uid://bs6lf46xvrxr7" path="res://Sprites/star_2.png" id="2_63k0p"]
 
 [sub_resource type="Gradient" id="Gradient_a21cb"]
@@ -14,8 +15,8 @@ colors = PackedColorArray(0.168, 0.1834, 0.3, 1, 0.3, 0.3, 0.3, 1)
 [sub_resource type="Gradient" id="Gradient_8yga3"]
 colors = PackedColorArray(0.252, 0.2751, 0.45, 1, 0.45, 0.45, 0.45, 1)
 
-[node name="Camera2D" type="Camera2D"]
-zoom = Vector2(0.5, 0.5)
+[node name="CameraController" type="Camera2D"]
+script = ExtResource("1_kf85d")
 
 [node name="SmallStarsParticleSystem" type="CPUParticles2D" parent="."]
 z_index = -100

@@ -10,7 +10,9 @@ enum OrbitState {
     TARGETTED
 }
 
-@onready var _satellite_spacer_prefab: PackedScene = preload("res://Prefabs/SatelliteSpacer.tscn")
+static var _satellite_spacer_prefab: PackedScene = preload("res://Prefabs/SatelliteSpacer.tscn")
+
+@onready var game_manager: GameManager = $/root/Main/GameManager
 @onready var _donut_collider: DonutCollisionPolygon2D = $DonutCollider
 @onready var _satellite_container: Node = $Satellites
 
@@ -151,6 +153,7 @@ func attach_satellite(attached_satellite: Satellite) -> void:
     attached_satellite.add_child(satellite_spacer)
     attached_satellite.reparent(_satellite_container)
     satellite_spacer.set_orbit_index(orbit_index)
+    game_manager.check_for_next_orbit()
 
 func on_slingshot_state_changed(slingshot_state: Slingshot.SlingshotState):
     _slingshot_state = slingshot_state
@@ -166,3 +169,6 @@ func _on_mouse_entered() -> void:
     _is_hovered = true
     if _slingshot_state != Slingshot.SlingshotState.AIMING:
         _change_state(OrbitState.HOVERED)
+
+func count_satellites() -> int:
+    return _satellite_container.get_child_count()
