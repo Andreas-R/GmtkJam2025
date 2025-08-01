@@ -1,3 +1,5 @@
+class_name Parallax
+
 extends Node2D
 
 @export var scroll_speed: float = 100.0
