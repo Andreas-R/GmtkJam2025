@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://dgtbp2f3kvwbm"]
+
+[ext_resource type="Texture2D" uid="uid://cc28yn4kaeg58" path="res://Sprites/fire_particle.png" id="1_cfvhy"]
+[ext_resource type="Script" uid="uid://y4m4keixdbmq" path="res://Scripts/Asteroids/Asteroid.gd" id="1_sd8hf"]
+[ext_resource type="Texture2D" uid="uid://c353q28m5pna2" path="res://Sprites/asteroid.png" id="2_3usoh"]
+
+[sub_resource type="Curve" id="Curve_uddbi"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.747774, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_uddbi"]
+offsets = PackedFloat32Array(0, 0.533762, 1)
+colors = PackedColorArray(1, 0.766667, 0, 1, 0.947849, 0.539579, 3.85046e-07, 1, 0.95, 0.253333, 0, 1)
+
+[node name="Asteroid" type="Node2D"]
+script = ExtResource("1_sd8hf")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 100
+texture = ExtResource("1_cfvhy")
+lifetime = 0.5
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 75.0
+initial_velocity_max = 100.0
+damping_min = 50.0
+damping_max = 50.0
+scale_amount_min = 0.5
+scale_amount_curve = SubResource("Curve_uddbi")
+color_ramp = SubResource("Gradient_uddbi")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_3usoh")

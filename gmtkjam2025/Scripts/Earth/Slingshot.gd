@@ -53,7 +53,9 @@ func _process(_delta: float):
 
 func _draw():
     if state == SlingshotState.AIMING:
-        draw_dashed_line(saddle.global_position, crosshair.global_position, Color.RED, 10, 30, false, true)
+        var dir = (crosshair.global_position - saddle.global_position)
+        var dist = dir.length()
+        draw_dashed_line(saddle.global_position, crosshair.global_position - (dir / dist) * min(dist, 50), Color.RED, 10, 30, false, true)
 
 func reset_slingshot():
     pivot.rotation = 0

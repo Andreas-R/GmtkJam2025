@@ -32,6 +32,13 @@ func on_timer_timeout() -> void:
     wobble()
     start_timer(spawnTime)
 
+func update_counter():
+    counterLabel.text = str(satelliteCount)
+
+func decrease_counter():
+    satelliteCount -= 1
+    counterLabel.text = str(satelliteCount)
+
 func wobble():
     if wobble_tween != null:
         wobble_tween.kill()
@@ -40,10 +47,3 @@ func wobble():
     wobble_tween.tween_property(counterPivot, "scale", Vector2(1.5, 1.5), 0.1)
     wobble_tween.tween_property(counterPivot, "scale", Vector2(0.75, 0.75), 0.1)
     wobble_tween.tween_property(counterPivot, "scale", Vector2(1, 1), 0.1)
-
-func update_counter():
-    counterLabel.text = str(satelliteCount)
-
-func decrease_counter():
-    satelliteCount -= 1
-    counterLabel.text = str(satelliteCount)
