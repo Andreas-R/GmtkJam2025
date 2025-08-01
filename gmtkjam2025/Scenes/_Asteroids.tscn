@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://crwvhx17ps27p"]
+
+[ext_resource type="PackedScene" uid="uid://jxwaqtrcn11h" path="res://Prefabs/Earth.tscn" id="1_14jdv"]
+[ext_resource type="PackedScene" uid="uid://bryjkwbk1skmu" path="res://Prefabs/Camera2D.tscn" id="1_a21cb"]
+[ext_resource type="PackedScene" uid="uid://w6xw3gch4kb6" path="res://Prefabs/OrbitManager.tscn" id="2_a21cb"]
+[ext_resource type="PackedScene" uid="uid://de0u73wtib4ax" path="res://Prefabs/Asteroids/AsteroidSpawner.tscn" id="3_sm5vq"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Camera2D" parent="." instance=ExtResource("1_a21cb")]
+
+[node name="Earth" parent="." instance=ExtResource("1_14jdv")]
+
+[node name="OrbitManager" parent="." instance=ExtResource("2_a21cb")]
+orbit_radius_offset = 500.0
+orbit_radius_distance = 250.0
+initial_orbits = 3
+
+[node name="AsteroidSpawner" parent="." instance=ExtResource("3_sm5vq")]

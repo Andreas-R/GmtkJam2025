@@ -100,7 +100,11 @@ func start_charging():
 func start_shooting():
     state = SlingshotState.SHOOTING
     
+    crosshair.visible = false
+    
     satelliteCounter.decrease_counter()
+
+    orbitManager.target_orbit(null)
 
     target_saddle_pos = saddle.position * -0.75
     var orbit := orbitManager.get_closest_orbit(crosshair.global_position)

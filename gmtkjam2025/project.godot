@@ -49,3 +49,5 @@ left_mouse_click={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.0784, 0.0866133, 0.14, 1)
+environment/defaults/default_environment="res://default_env.tres"

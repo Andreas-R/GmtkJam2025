@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://jxwaqtrcn11h"]
 
-[ext_resource type="Script" uid="uid://bw50u5b4atcvu" path="res://Scripts/Earth.gd" id="1_cbl6o"]
+[ext_resource type="Script" uid="uid://bw50u5b4atcvu" path="res://Scripts/Earth/Earth.gd" id="1_cbl6o"]
 [ext_resource type="Texture2D" uid="uid://bg1opds3ehr18" path="res://Sprites/earth.png" id="2_b5ctf"]
 [ext_resource type="Texture2D" uid="uid://dk8ydtsudh3v2" path="res://Sprites/continents.png" id="3_b5ctf"]
 [ext_resource type="Script" uid="uid://cjr7jmyyfrkk1" path="res://Scripts/Earth/Parallax.gd" id="3_ctwuv"]

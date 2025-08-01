@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://bryjkwbk1skmu"]
+
+[ext_resource type="Texture2D" uid="uid://custneasqiux7" path="res://Sprites/star_1.png" id="1_0drfo"]
+[ext_resource type="Texture2D" uid="uid://bs6lf46xvrxr7" path="res://Sprites/star_2.png" id="2_63k0p"]
+
+[sub_resource type="Gradient" id="Gradient_a21cb"]
+offsets = PackedFloat32Array(0, 0.1, 0.9, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_sm5vq"]
+colors = PackedColorArray(0.168, 0.1834, 0.3, 1, 0.3, 0.3, 0.3, 1)
+
+[sub_resource type="Gradient" id="Gradient_8yga3"]
+colors = PackedColorArray(0.252, 0.2751, 0.45, 1, 0.45, 0.45, 0.45, 1)
+
+[node name="Camera2D" type="Camera2D"]
+zoom = Vector2(0.5, 0.5)
+
+[node name="SmallStarsParticleSystem" type="CPUParticles2D" parent="."]
+z_index = -100
+amount = 2000
+texture = ExtResource("1_0drfo")
+lifetime = 10.0
+preprocess = 10.0
+emission_shape = 3
+emission_rect_extents = Vector2(4000, 3000)
+gravity = Vector2(0, 0)
+scale_amount_min = 0.2
+scale_amount_max = 0.5
+color_ramp = SubResource("Gradient_a21cb")
+color_initial_ramp = SubResource("Gradient_sm5vq")
+
+[node name="CrossStarsParticleSystem" type="CPUParticles2D" parent="."]
+z_index = -100
+amount = 200
+texture = ExtResource("2_63k0p")
+lifetime = 10.0
+preprocess = 10.0
+emission_shape = 3
+emission_rect_extents = Vector2(4000, 3000)
+gravity = Vector2(0, 0)
+scale_amount_min = 0.4
+color_ramp = SubResource("Gradient_a21cb")
+color_initial_ramp = SubResource("Gradient_8yga3")

@@ -1,0 +1,21 @@
+[gd_scene load_steps=6 format=3 uid="uid://c1j2tp45dchvs"]
+
+[ext_resource type="Script" uid="uid://vqprp6cie783" path="res://Scripts/Asteroids/AsteroidIndicator.gd" id="1_5lxp3"]
+[ext_resource type="Shader" uid="uid://pcvpb3fkmf04" path="res://Shaders/AsteroidIndicator.gdshader" id="2_ktvug"]
+[ext_resource type="Texture2D" uid="uid://dqc0jt88oe0ra" path="res://Sprites/pixel.png" id="3_yjk4k"]
+[ext_resource type="PackedScene" uid="uid://dgtbp2f3kvwbm" path="res://Prefabs/Asteroids/Asteroid.tscn" id="4_ktvug"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ny5p3"]
+shader = ExtResource("2_ktvug")
+
+[node name="AsteroidIndicator" type="Node2D"]
+script = ExtResource("1_5lxp3")
+
+[node name="Indicator" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+material = SubResource("ShaderMaterial_ny5p3")
+scale = Vector2(10000, 100)
+texture = ExtResource("3_yjk4k")
+
+[node name="Asteroid" parent="." instance=ExtResource("4_ktvug")]
+position = Vector2(-5000, 0)
