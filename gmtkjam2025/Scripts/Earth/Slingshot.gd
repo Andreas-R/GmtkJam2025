@@ -10,7 +10,7 @@ enum SlingshotState {
 
 static var satellite_prefab: PackedScene = load("res://Prefabs/Satellite.tscn") as PackedScene
 
-@export var max_charge_dist = 300
+@export var max_charge_dist: float = 300
 
 @onready var main: Node2D = $/root/Main
 @onready var orbitManager: OrbitManager = $/root/Main/OrbitManager
@@ -35,9 +35,9 @@ func _process(_delta: float):
         SlingshotState.IDLE:
             pass
         SlingshotState.AIMING:
-            var mouse_world_pos = get_global_mouse_position()
-            var dir = global_position - mouse_world_pos
-            var dist = min(max_charge_dist, dir.length())
+            var mouse_world_pos := get_global_mouse_position()
+            var dir := global_position - mouse_world_pos
+            var dist: float = min(max_charge_dist, dir.length())
             pivot.rotation = dir.angle() + PI * 0.5
             saddle.position = Vector2(0, dist)
             place_band(band_1, band_1_end)
