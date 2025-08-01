@@ -45,6 +45,10 @@ var _hover_line_width_multiplier: float = 4.0
 var _hover_width_tween: Tween
 var _slingshot_state: Slingshot.SlingshotState
 
+var _is_other_dragged: bool = false
+var _orbit_drag_start_signal: Signal
+var _orbit_drag_end_signal: Signal
+
 func _ready():
     assert(_collider_width > 0)
     rotation = 0
@@ -72,7 +76,7 @@ func _process(delta: float) -> void:
             _local_rotation_speed_deg += mouse_angular_speed * 1.3
             _last_mouse_angle = current_angle
             if Input.is_action_just_released("left_mouse_click"):
-                _change_state(OrbitState.IDLE)
+                _change_state(OrbitState.HOVERED if _is_hovered else OrbitState.IDLE)
         _:
             _local_rotation_speed_deg = lerpf(_local_rotation_speed_deg, _get_base_rotation_speed(), 0.05)
 
@@ -92,27 +96,32 @@ func _on_input_event(_viewport: Viewport, event: InputEvent, _shape_idx: int):
             _last_mouse_angle = get_local_mouse_position().rotated(-rotation).angle()
 
 func _change_state(new_state: OrbitState) -> void:
-    if new_state == _state:
+    if new_state == _state or _is_other_dragged:
+        # Cannot change state if other orbit is dragged
         return
 
+    var old_state = _state
+    _state = new_state
+
+    if old_state == OrbitState.HOVERED:
+        _reset_hover_state()
+    if old_state == OrbitState.DRAGGED:
+        _orbit_drag_end_signal.emit(orbit_index)
     match new_state:
         OrbitState.IDLE:
-            _reset_hover_state()
             get_tree().create_tween().tween_property(self, "_color", base_color, 0.1)
         OrbitState.DRAGGED:
-            _reset_hover_state()
             get_tree().create_tween().tween_property(self, "_color", drag_color, 0.1)
+            _orbit_drag_start_signal.emit(orbit_index)
         OrbitState.TARGETTED:
-            _reset_hover_state()
             get_tree().create_tween().tween_property(self, "_color", target_color, 0.1)
         OrbitState.HOVERED:
-            if _state != OrbitState.IDLE:
-                # Cannot go into hovered state if not idle
+            if old_state == OrbitState.TARGETTED:
+                # Cannot go into hovered state if targetted
                 return
             get_tree().create_tween().tween_property(self, "_color", hover_color, 0.1)
             _hover_width_tween = create_tween()
             _hover_width_tween.tween_property(self, "_local_line_width", line_width * _hover_line_width_multiplier, 0.15)
-    _state = new_state
 
 func _reset_hover_state() -> void:
     if _hover_width_tween != null and _hover_width_tween.is_running():
@@ -157,12 +166,24 @@ func on_slingshot_state_changed(slingshot_state: Slingshot.SlingshotState):
     if slingshot_state != Slingshot.SlingshotState.AIMING and _is_hovered:
         _change_state(OrbitState.HOVERED)
 
+func set_orbit_drag_signals(start: Signal, end: Signal) -> void:
+    _orbit_drag_start_signal = start
+    _orbit_drag_end_signal = end
+
+func on_orbit_drag_start(index: int) -> void:
+    _is_other_dragged = index != orbit_index
+
+func on_orbit_drag_end(index: int) -> void:
+    _is_other_dragged = false
+    if _is_hovered:
+        _change_state(OrbitState.HOVERED)
+
+func _on_mouse_entered() -> void:
+    _is_hovered = true
+    if _slingshot_state != Slingshot.SlingshotState.AIMING and _state != OrbitState.DRAGGED:
+        _change_state(OrbitState.HOVERED)
+
 func _on_mouse_exited() -> void:
     _is_hovered = false
     if _state == OrbitState.HOVERED:
         _change_state(OrbitState.IDLE)
-
-func _on_mouse_entered() -> void:
-    _is_hovered = true
-    if _slingshot_state != Slingshot.SlingshotState.AIMING:
-        _change_state(OrbitState.HOVERED)
