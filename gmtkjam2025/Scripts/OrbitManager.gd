@@ -2,27 +2,25 @@ class_name OrbitManager
 
 extends Node2D
 
-@onready var _orbit_prefab: PackedScene = preload("res://Prefabs/Orbit.tscn")
+static var _orbit_prefab: PackedScene = preload("res://Prefabs/Orbit.tscn")
+
 @onready var _slingshot: Slingshot = $/root/Main/Earth/Slingshot
 
 @export var orbit_radius_offset: float = 200
 @export var orbit_radius_distance: float = 100
-@export_range(1, 20) var initial_orbits: int = 2
+@export_range(1, 20) var initial_orbits: int = 1
 @export var min_satellite_spacing: float = 100.0
 
-var _orbits: Array
+var _orbits: Array = []
 
 signal orbit_drag_start(orbit_index: int)
 signal orbit_drag_end(orbit_index: int)
 
-func _ready() -> void:
+func init_orbits() -> void:
     _orbits = get_children().filter(func(c): return c is Orbit)
     if _orbits.size() < initial_orbits:
         for i in range(initial_orbits):
             add_orbit()
-
-func _process(_delta: float) -> void:
-    pass
 
 func add_orbit() -> void:
     var new_orbit: Orbit = _orbit_prefab.instantiate()
@@ -41,6 +39,9 @@ func add_orbit() -> void:
     _orbits.append(new_orbit)
 
 func get_closest_orbit(target_position: Vector2) -> Orbit:
+    if (_orbits.size() == 0):
+        return null
+
     var orbit_index = round(max(global_position.distance_to(target_position) - orbit_radius_offset, 0) / orbit_radius_distance)
     var closest_orbit = _orbits.get(clamp(orbit_index, 0, _orbits.size() - 1))
     return closest_orbit
@@ -56,3 +57,9 @@ func get_orbit(orbit_index: int) -> Orbit:
     if orbit_index >= _orbits.size():
         return null
     return _orbits.get(orbit_index)
+
+func count_satellites() -> int:
+    var count := 0
+    for orbit in _orbits:
+        count += orbit.count_satellites()
+    return count

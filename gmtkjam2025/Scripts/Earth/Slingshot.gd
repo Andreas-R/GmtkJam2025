@@ -11,6 +11,8 @@ enum SlingshotState {
 static var satellite_prefab: PackedScene = load("res://Prefabs/Satellite.tscn") as PackedScene
 
 @export var max_charge_dist: float = 300
+@export var aim_color: Color = Color.RED
+@export var aim_crosshair_color: Color = Color.RED
 
 @onready var main: Node2D = $/root/Main
 @onready var orbitManager: OrbitManager = $/root/Main/OrbitManager
@@ -21,7 +23,7 @@ static var satellite_prefab: PackedScene = load("res://Prefabs/Satellite.tscn") 
 @onready var band_2: Node2D = $Pivot/Band2
 @onready var band_1_end: Node2D = $Pivot/Saddle/Band1End
 @onready var band_2_end: Node2D = $Pivot/Saddle/Band2End
-@onready var crosshair: Node2D = $Crosshair
+@onready var crosshair: Sprite2D = $Crosshair
 @onready var satelliteCounter: SatelliteCounter = get_parent().find_child("SatelliteCounter")
 
 var state: SlingshotState = SlingshotState.IDLE
@@ -33,6 +35,7 @@ var satellite: Satellite
 signal state_changed(new_state: SlingshotState)
 
 func _ready() -> void:
+    crosshair.modulate = aim_crosshair_color
     _change_state(SlingshotState.IDLE)
 
 func _process(_delta: float):
@@ -48,8 +51,10 @@ func _process(_delta: float):
             place_band(band_1, band_1_end)
             place_band(band_2, band_2_end)
             var orbit := orbitManager.get_closest_orbit(global_position + dir.normalized() * dist * 5)
-            crosshair.global_position = global_position + dir.normalized() * orbit.radius
-            orbitManager.target_orbit(orbit)
+            if orbit != null:
+                crosshair.global_position = global_position + dir.normalized() * orbit.radius
+                crosshair.global_rotation = crosshair.global_position.angle() + PI * 0.5
+                orbitManager.target_orbit(orbit)
         SlingshotState.SHOOTING:
             place_band(band_1, band_1_end)
             place_band(band_2, band_2_end)
@@ -58,7 +63,10 @@ func _process(_delta: float):
 
 func _draw():
     if state == SlingshotState.AIMING:
-        draw_dashed_line(saddle.global_position, crosshair.global_position, Color.RED, 10, 30, false, true)
+        var dir := crosshair.global_position - saddle.global_position
+        var dist := dir.length()
+        var clamped_dist: float = max(0, dist - 30)
+        draw_dashed_line(saddle.global_position, saddle.global_position + (dir / dist) * clamped_dist, aim_color, 7, 40, false, true)
 
 func reset_slingshot():
     pivot.rotation = 0
@@ -126,7 +134,8 @@ func start_shooting():
 
 func launch_satellite(orbit: Orbit):
     satellite.reparent(main)
-    satellite.target(crosshair.global_position, orbit)
+    if orbit != null:
+        satellite.target(crosshair.global_position, orbit)
     satellite = null
 
 func idle_slingshot():

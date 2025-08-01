@@ -11,12 +11,12 @@ extends Node2D
 @onready var progress: TextureProgressBar = $Progress
 
 var satelliteCount: int = 1;
-var spawnTime: float = 5;
+var spawn_time: float = 5;
 var wobble_tween: Tween
 
 func _ready() -> void:
     update_counter()
-    start_timer(spawnTime)
+    start_timer(spawn_time)
 
 func _process(_delta: float):
     var t := (timer.wait_time - timer.time_left) / timer.wait_time
@@ -30,7 +30,7 @@ func on_timer_timeout() -> void:
     satelliteCount += 1
     update_counter()
     wobble()
-    start_timer(spawnTime)
+    start_timer(spawn_time)
 
 func update_counter():
     counterLabel.text = str(satelliteCount)
