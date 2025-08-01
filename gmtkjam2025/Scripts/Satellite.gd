@@ -13,31 +13,43 @@ static var explosion_prefab: PackedScene = load("res://Prefabs/Explosion.tscn") 
 @export var speed_factor: float = 1.5
 @export var min_speed: float = 100
 
+@export var test_texture: Texture2D
+
 @onready var main: Node2D = $/root/Main
 
 var state: SatelliteState = SatelliteState.IDLE
 
-var target_pos: Vector2
 var target_orbit: Orbit
 var speed: float = 0
+
+var test_attached: bool = false
+var target_node: Node2D
 
 func _process(delta: float):
     match state:
         SatelliteState.IDLE:
             pass
         SatelliteState.TARGETING:
-            var dist := (target_pos - global_position).length()
+            var dist := (target_node.global_position - global_position).length()
             speed = max(dist * speed_factor, min_speed)
-            global_position = global_position.move_toward(target_pos, speed * delta)
+            global_position = global_position.move_toward(target_node.global_position, speed * delta)
+            global_rotation = global_position.angle() + PI / 2
 
-            if dist < 0.001:
+            if !test_attached and dist < 150:
+                target_node.reparent(target_orbit)
+                test_attached = true
+            if abs(target_orbit.radius - global_position.length()) < 20:
                 target_orbit.attach_satellite(self)
                 state = SatelliteState.IN_ORBIT
+                target_node.queue_free()
         SatelliteState.IN_ORBIT:
             pass
 
 func target(pos: Vector2, orbit: Orbit):
-    target_pos = pos
+    target_node = Sprite2D.new()
+    target_node.texture = test_texture 
+    target_node.global_position = pos
+    main.add_child(target_node)
     target_orbit = orbit
     state = SatelliteState.TARGETING
 
