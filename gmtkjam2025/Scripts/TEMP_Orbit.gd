@@ -1,6 +1,7 @@
 @tool
-extends Node2D
 class_name Orbit
+
+extends Node2D
 
 enum OrbitState {
     IDLE,
