@@ -19,11 +19,17 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=1600
 window/size/viewport_height=1200
+window/size/window_width_override=1600
+window/size/window_height_override=900
 window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/donut_collision_polygon2D/plugin.cfg")
+
+[global_group]
+
+SatelliteSpacer="A group containing Satellite Spacers"
 
 [input]
 

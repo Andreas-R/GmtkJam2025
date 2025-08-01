@@ -1,46 +1,50 @@
-extends Node2D
-
 class_name OrbitManager
+
+extends Node2D
 
 @onready var _orbit_prefab: PackedScene = preload("res://Prefabs/Orbit.tscn")
 
 @export var orbit_radius_offset: float = 200
 @export var orbit_radius_distance: float = 100
 @export_range(1, 20) var initial_orbits: int = 2
+@export var min_satellite_spacing: float = 100.0
 
 var _orbits: Array
 var targeted_or
 
 func _ready() -> void:
-	_orbits = get_children().filter(func(c): return c is Orbit).map(func(c): return c.get_typed_script() as Orbit)
-	if _orbits.size() < initial_orbits:
-		for i in range(initial_orbits):
-			add_orbit()
+    _orbits = get_children().filter(func(c): return c is Orbit)
+    if _orbits.size() < initial_orbits:
+        for i in range(initial_orbits):
+            add_orbit()
 
 func _process(_delta: float) -> void:
-	pass
-	# if _orbits.size() > 0:
-	# 	var closest_orbit = get_closest_orbit(get_global_mouse_position()) # TODO: Remove test lines
-	# 	for non_targets in _orbits.filter(func(c): return c != closest_orbit):
-	# 		non_targets.untarget()
-	# 	closest_orbit.target()
-
+    pass
 
 func add_orbit() -> void:
-	var new_orbit: Orbit = _orbit_prefab.instantiate()
-	new_orbit.radius = orbit_radius_offset + orbit_radius_distance * (_orbits.size())
-	new_orbit.set_collider_width(orbit_radius_distance)
-	add_child(new_orbit)
-	_orbits.append(new_orbit)
+    var new_orbit: Orbit = _orbit_prefab.instantiate()
+    new_orbit.radius = orbit_radius_offset + orbit_radius_distance * (_orbits.size())
+    new_orbit.parts = round(new_orbit.radius / 7)
+    new_orbit.clockwise_rotation = (_orbits.size() % 2) == 0
+    new_orbit.rotation_speed_deg = max(16 - _orbits.size() * 2, 1)
+    new_orbit.set_collider_width(orbit_radius_distance)
+    new_orbit.set_min_satellite_spacing(min_satellite_spacing)
+    add_child(new_orbit)
+    _orbits.append(new_orbit)
 
 func get_closest_orbit(target_position: Vector2) -> Orbit:
-	var orbit_index = round(max(global_position.distance_to(target_position) - orbit_radius_offset, 0) / orbit_radius_distance)
-	var closest_orbit = _orbits.get(clamp(orbit_index, 0, _orbits.size() - 1))
-	return closest_orbit
+    var orbit_index = round(max(global_position.distance_to(target_position) - orbit_radius_offset, 0) / orbit_radius_distance)
+    var closest_orbit = _orbits.get(clamp(orbit_index, 0, _orbits.size() - 1))
+    return closest_orbit
 
 func target_orbit(target: Orbit) -> void:
-	for orbit: Orbit in _orbits:
-		if orbit == target:
-			orbit.target()
-		else:
-			orbit.untarget()
+    for orbit: Orbit in _orbits:
+        if orbit == target:
+            orbit.target()
+        else:
+            orbit.untarget()
+
+func get_orbit(orbit_index: int) -> Orbit:
+    if orbit_index >= _orbits.size():
+        return null
+    return _orbits.get(orbit_index)
