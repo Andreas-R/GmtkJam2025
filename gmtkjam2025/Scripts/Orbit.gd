@@ -176,7 +176,7 @@ func set_orbit_drag_signals(start: Signal, end: Signal) -> void:
 func on_orbit_drag_start(index: int) -> void:
     _is_other_dragged = index != orbit_index
 
-func on_orbit_drag_end(index: int) -> void:
+func on_orbit_drag_end(_index: int) -> void:
     _is_other_dragged = false
     if _is_hovered:
         _change_state(OrbitState.HOVERED)
