@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bja7h30rfjpk8"]
 
 [ext_resource type="PackedScene" uid="uid://jxwaqtrcn11h" path="res://Prefabs/Earth.tscn" id="1_r150o"]
-[ext_resource type="PackedScene" uid="uid://6f3mt2biylhl" path="res://Prefabs/OrbitManager.tscn" id="2_idj7w"]
+[ext_resource type="PackedScene" uid="uid://w6xw3gch4kb6" path="res://Prefabs/OrbitManager.tscn" id="2_idj7w"]
 
 [node name="Main" type="Node2D"]
 
@@ -11,3 +11,6 @@ zoom = Vector2(0.5, 0.5)
 [node name="Earth" parent="." instance=ExtResource("1_r150o")]
 
 [node name="OrbitManager" parent="." instance=ExtResource("2_idj7w")]
+orbit_radius_offset = 500.0
+orbit_radius_distance = 250.0
+initial_orbits = 3

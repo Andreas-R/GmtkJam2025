@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ey2wgsswx3cr"]
 
 [ext_resource type="Texture2D" uid="uid://51fof174u8kn" path="res://Sprites/orbit.png" id="1_2tbx1"]
-[ext_resource type="PackedScene" uid="uid://6f3mt2biylhl" path="res://Prefabs/OrbitManager.tscn" id="2_8ufsd"]
+[ext_resource type="PackedScene" uid="uid://w6xw3gch4kb6" path="res://Prefabs/OrbitManager.tscn" id="2_8ufsd"]
 
 [node name="Orbits" type="Node2D"]
 
