@@ -44,6 +44,13 @@ func _process(_delta: float):
         SlingshotState.SHOOTING:
             place_band(band_1, band_1_end)
             place_band(band_2, band_2_end)
+            
+    queue_redraw()
+
+func _draw():
+    print("AAAA")
+    if state == SlingshotState.CHARGING:
+        draw_dashed_line(saddle.global_position, crosshair.global_position, Color.RED, 10, 30, false, true)
 
 func reset_slingshot():
     pivot.rotation = 0
