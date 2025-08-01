@@ -10,16 +10,21 @@ enum OrbitState {
 
 @onready var _donut_collider: DonutCollisionPolygon2D = $DonutCollider
 
+@export_category("Circle Properties")
 @export var radius: float = 200
 @export_range(1, 200) var parts: int = 30
 @export_range(1, 100) var segments: int = 100
 @export_range(1, 100) var line_width: float = 3.0
+@export_group("Rotation")
 @export var clockwise_rotation: bool = true
 @export_range(0, 360) var rotation_speed_deg: int = 10
+@export_group("Colours")
 @export var base_color: Color = Color.WHITE
 @export var hover_color: Color = Color.LIGHT_GRAY # TODO: Not yet in use
 @export var drag_color: Color = Color.GRAY
 @export var target_color: Color = Color.LIGHT_SALMON
+@export_category("Satellite Properties")
+@export var min_satellite_spacing: float = 3.0
 
 var _collider_width
 

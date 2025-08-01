@@ -1,11 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://cd4y56l75yr13"]
+[gd_scene load_steps=3 format=3 uid="uid://cd4y56l75yr13"]
 
 [ext_resource type="Script" uid="uid://dgkqllkf7f8kb" path="res://Scripts/Orbit.gd" id="1_1fuu5"]
 [ext_resource type="Script" uid="uid://b34sml2qw4v2c" path="res://addons/donut_collision_polygon2D/donut_collision_polygon2D.gd" id="2_03wf0"]
-[ext_resource type="Texture2D" uid="uid://51fof174u8kn" path="res://Sprites/orbit.png" id="3_cnj81"]
 
 [node name="Orbit" type="Area2D"]
-rotation = 1.22244
+rotation = 29.3503
 script = ExtResource("1_1fuu5")
 
 [node name="DonutCollider" type="CollisionPolygon2D" parent="."]
@@ -17,10 +16,5 @@ quality = 64
 metadata/_custom_type_script = "uid://b34sml2qw4v2c"
 
 [node name="Satellites" type="Node2D" parent="."]
-
-[node name="Sprite2D" type="Sprite2D" parent="Satellites"]
-position = Vector2(200, 0)
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("3_cnj81")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]

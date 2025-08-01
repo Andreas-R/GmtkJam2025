@@ -1,9 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://6f3mt2biylhl"]
+[gd_scene load_steps=2 format=3 uid="uid://w6xw3gch4kb6"]
 
-[ext_resource type="Script" uid="uid://lo8skv2fyfyl" path="res://Scripts/OrbitManager.gd" id="1_tmy4o"]
+[ext_resource type="Script" path="res://Scripts/OrbitManager.gd" id="1_tmy4o"]
 
 [node name="OrbitManager" type="Node2D"]
 script = ExtResource("1_tmy4o")
-orbit_radius_offset = 500.0
-orbit_radius_distance = 250.0
-initial_orbits = 3
