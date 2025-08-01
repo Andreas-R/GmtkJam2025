@@ -85,6 +85,8 @@ func start_charging():
     show_slingshot()
     spawn_satellite()
 
+    earth.highlight(false)
+
 func start_shooting():
     state = SlingshotState.SHOOTING
 
@@ -105,6 +107,9 @@ func launch_satellite():
 
     hide_slingshot()
     reset_slingshot()
+
+    if earth.hovered:
+        earth.highlight(true)
 
 func _input(event):
     if event is InputEventMouseButton:

@@ -3,7 +3,7 @@ class_name Satellite
 extends Node2D
 
 enum SatelliteState {
-    CHARGING,
+    IDLE,
     TARGETING,
     IN_ORBIT,
 }
@@ -11,14 +11,14 @@ enum SatelliteState {
 @export var speed_factor: float = 1.5
 @export var min_speed: float = 100
 
-var state: SatelliteState = SatelliteState.CHARGING
+var state: SatelliteState = SatelliteState.IDLE
 
 var target_pos: Vector2
 var speed: float = 0
 
 func _process(delta: float):
     match state:
-        SatelliteState.CHARGING:
+        SatelliteState.IDLE:
             pass
         SatelliteState.TARGETING:
             var dist := (target_pos - global_position).length()
