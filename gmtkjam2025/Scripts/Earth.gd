@@ -2,7 +2,7 @@ class_name Earth
 
 extends Node2D
 
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var sprite: Sprite2D = $Planet
 @onready var slingshot: Slingshot = $Slingshot
 
 var scale_sprite_tween: Tween
