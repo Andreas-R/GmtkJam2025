@@ -29,8 +29,6 @@ func _ready() -> void:
     _state = SpacingState.STEADY
 
 func _process(delta: float) -> void:
-    print(_other_spacers.size())
-
     match _state:
         SpacingState.STEADY:
             return
