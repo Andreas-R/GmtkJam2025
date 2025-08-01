@@ -24,6 +24,9 @@ func _process(_delta: float) -> void:
 func add_orbit() -> void:
     var new_orbit: Orbit = _orbit_prefab.instantiate()
     new_orbit.radius = orbit_radius_offset + orbit_radius_distance * (_orbits.size())
+    new_orbit.parts = round(new_orbit.radius / 7)
+    new_orbit.clockwise_rotation = (_orbits.size() % 2) == 0
+    new_orbit.rotation_speed_deg = max(16 - _orbits.size() * 2, 1)
     new_orbit.set_collider_width(orbit_radius_distance)
     new_orbit.set_min_satellite_spacing(min_satellite_spacing)
     add_child(new_orbit)

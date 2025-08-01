@@ -14,12 +14,12 @@ enum OrbitState {
 
 @export_category("Circle Properties")
 @export var radius: float = 200
-@export_range(1, 200) var parts: int = 30
+@export_range(1, 200) var parts: int = 50
 @export_range(1, 100) var segments: int = 100
 @export_range(1, 100) var line_width: float = 3.0
 @export_group("Rotation")
 @export var clockwise_rotation: bool = true
-@export_range(0, 360) var rotation_speed_deg: int = 10
+@export_range(0, 360) var rotation_speed_deg: float = 20
 @export_group("Colours")
 @export var base_color: Color = Color.WHITE
 @export var hover_color: Color = Color.LIGHT_GRAY # TODO: Not yet in use
