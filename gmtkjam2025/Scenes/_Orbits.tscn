@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://ey2wgsswx3cr"]
+
+[ext_resource type="Texture2D" uid="uid://51fof174u8kn" path="res://Sprites/orbit.png" id="1_2tbx1"]
+[ext_resource type="Script" uid="uid://dgkqllkf7f8kb" path="res://Scripts/orbit.gd" id="1_8ufsd"]
+
+[node name="Orbits" type="Node2D"]
+
+[node name="Orbit" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.254902)
+position = Vector2(600, 389)
+texture = ExtResource("1_2tbx1")
+
+[node name="Center" type="Node2D" parent="."]
+position = Vector2(590, 395)
+
+[node name="Orbit" type="Node2D" parent="Center"]
+rotation = 142.006
+script = ExtResource("1_8ufsd")
+
+[node name="Orbit2" type="Node2D" parent="Center"]
+rotation = -50.7819
+script = ExtResource("1_8ufsd")
+radius = 300.0
+parts = 50
+clockwise_rotation = false
+
+[node name="Sprite2D" type="Sprite2D" parent="Center/Orbit2"]
+position = Vector2(300, 0)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_2tbx1")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Center/Orbit2"]
+position = Vector2(-300, 0)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_2tbx1")
