@@ -13,6 +13,11 @@ static var satellite_prefab: PackedScene = load("res://Prefabs/Satellite.tscn") 
 @export var max_charge_dist: float = 300
 @export var aim_color: Color = Color.RED
 @export var aim_crosshair_color: Color = Color.RED
+@export var saddle_shadow: Node2D
+@export var band_1_shadow: Node2D
+@export var band_2_shadow: Node2D
+@export var band_1_handle_shadow: Node2D
+@export var band_2_handle_shadow: Node2D
 
 @onready var main: Node2D = $/root/Main
 @onready var orbitManager: OrbitManager = $/root/Main/OrbitManager
@@ -21,6 +26,8 @@ static var satellite_prefab: PackedScene = load("res://Prefabs/Satellite.tscn") 
 @onready var saddle: Node2D = $Pivot/Saddle
 @onready var band_1: Node2D = $Pivot/Band1
 @onready var band_2: Node2D = $Pivot/Band2
+@onready var band_1_handle: Node2D = $Pivot/Band1Handle
+@onready var band_2_handle: Node2D = $Pivot/Band2Handle
 @onready var band_1_end: Node2D = $Pivot/Saddle/Band1End
 @onready var band_2_end: Node2D = $Pivot/Saddle/Band2End
 @onready var crosshair: Sprite2D = $Crosshair
@@ -31,6 +38,10 @@ var state: SlingshotState = SlingshotState.IDLE
 var target_saddle_pos: Vector2
 var shoot_tween: Tween
 var satellite: Satellite
+
+var saddle_shadow_offset = Vector2(15.0, 8.0)
+var band_shadow_offset = Vector2(10.0, 5.0)
+var band_handle_shadow_offset = Vector2(8.0, 3.0)
 
 signal state_changed(new_state: SlingshotState)
 
@@ -48,16 +59,20 @@ func _process(_delta: float):
             var dist: float = min(max_charge_dist, dir.length())
             pivot.rotation = dir.angle() + PI * 0.5
             saddle.position = Vector2(0, dist)
-            place_band(band_1, band_1_end)
-            place_band(band_2, band_2_end)
+            saddle_shadow.global_position = saddle.global_position + saddle_shadow_offset
+            saddle_shadow.global_rotation = saddle.global_rotation
+            place_band(band_1, band_1_end, band_1_handle, band_1_handle_shadow, band_1_shadow)
+            place_band(band_2, band_2_end, band_2_handle, band_2_handle_shadow, band_2_shadow)
             var orbit := orbitManager.get_closest_orbit(global_position + dir.normalized() * dist * 5)
             if orbit != null:
                 crosshair.global_position = global_position + dir.normalized() * orbit.radius
                 crosshair.global_rotation = crosshair.global_position.angle() + PI * 0.5
                 orbitManager.target_orbit(orbit)
         SlingshotState.SHOOTING:
-            place_band(band_1, band_1_end)
-            place_band(band_2, band_2_end)
+            saddle_shadow.global_position = saddle.global_position + saddle_shadow_offset
+            saddle_shadow.global_rotation = saddle.global_rotation
+            place_band(band_1, band_1_end, band_1_handle, band_1_handle_shadow, band_1_shadow)
+            place_band(band_2, band_2_end, band_2_handle, band_2_handle_shadow, band_2_shadow)
             
     queue_redraw()
 
@@ -71,29 +86,51 @@ func _draw():
 func reset_slingshot():
     pivot.rotation = 0
     saddle.position = Vector2.ZERO
+    saddle_shadow.position = Vector2.ZERO
     band_1.scale.y = 0
     band_2.scale.y = 0
+    band_1_shadow.scale.y = 0
+    band_2_shadow.scale.y = 0
 
 func show_slingshot():
     saddle.visible = true
+    saddle_shadow.visible = true
     band_1.visible = true
     band_2.visible = true
+    band_1_handle.visible = true
+    band_2_handle.visible = true
+    band_1_handle_shadow.visible = true
+    band_2_handle_shadow.visible = true
+    band_1_shadow.visible = true
+    band_2_shadow.visible = true
     crosshair.visible = true
-    place_band(band_1, band_1_end)
-    place_band(band_2, band_2_end)
+    place_band(band_1, band_1_end, band_1_handle, band_1_handle_shadow, band_1_shadow)
+    place_band(band_2, band_2_end, band_2_handle, band_2_handle_shadow, band_2_shadow)
 
 func hide_slingshot():
     saddle.visible = false
+    saddle_shadow.visible = false
     band_1.visible = false
     band_2.visible = false
+    band_1_handle.visible = false
+    band_2_handle.visible = false
+    band_1_handle_shadow.visible = false
+    band_2_handle_shadow.visible = false
+    band_1_shadow.visible = false
+    band_2_shadow.visible = false
     crosshair.visible = false
-    place_band(band_1, band_1_end)
-    place_band(band_2, band_2_end)
+    place_band(band_1, band_1_end, band_1_handle, band_1_handle_shadow, band_1_shadow)
+    place_band(band_2, band_2_end, band_2_handle, band_2_handle_shadow, band_2_shadow)
 
-func place_band(band: Node2D, bandEnd: Node2D):
-    var dir = bandEnd.global_position - band.global_position
+func place_band(band: Node2D, band_end: Node2D, band_handle: Node2D, band_handle_shadow: Node2D, band_shadow: Node2D):
+    var dir = band_end.global_position - band.global_position
     band.global_rotation = dir.angle() - PI * 0.5
     band.scale.y = dir.length()
+    band_handle.global_position = band.global_position
+    band_handle_shadow.global_position = band.global_position + band_handle_shadow_offset
+    band_shadow.global_position = band.global_position + band_shadow_offset
+    band_shadow.global_rotation = band.global_rotation
+    band_shadow.scale.y = band.scale.y
 
 func spawn_satellite():
     satellite = satellite_prefab.instantiate() as Satellite
