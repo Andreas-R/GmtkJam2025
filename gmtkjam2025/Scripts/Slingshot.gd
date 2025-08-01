@@ -90,20 +90,25 @@ func start_charging():
 func start_shooting():
     state = SlingshotState.SHOOTING
 
-    target_saddle_pos = saddle.position * -0.5
+    target_saddle_pos = saddle.position * -0.75
     
     if shoot_tween != null:
         shoot_tween.kill()
     shoot_tween = create_tween().set_ease(Tween.EASE_IN)
     shoot_tween.tween_property(saddle, "position", target_saddle_pos, 0.15)
     shoot_tween.tween_callback(launch_satellite)
+    shoot_tween.tween_property(saddle, "position", target_saddle_pos * -0.5, 0.15)
+    shoot_tween.tween_property(saddle, "position", target_saddle_pos * 0.25, 0.15)
+    shoot_tween.tween_property(saddle, "position", Vector2.ZERO, 0.15)
+    shoot_tween.tween_callback(idle_slingshot)
 
 func launch_satellite():
-    state = SlingshotState.IDLE
-
     satellite.reparent(main)
     satellite.target(crosshair.global_position)
     satellite = null
+
+func idle_slingshot():
+    state = SlingshotState.IDLE
 
     hide_slingshot()
     reset_slingshot()
