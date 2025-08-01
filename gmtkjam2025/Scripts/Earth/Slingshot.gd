@@ -21,6 +21,7 @@ static var satellite_prefab: PackedScene = load("res://Prefabs/Satellite.tscn") 
 @onready var band_1_end: Node2D = $Pivot/Saddle/Band1End
 @onready var band_2_end: Node2D = $Pivot/Saddle/Band2End
 @onready var crosshair: Node2D = $Crosshair
+@onready var satelliteCounter: SatelliteCounter = get_parent().find_child("SatelliteCounter")
 
 var state: SlingshotState = SlingshotState.IDLE
 
@@ -95,6 +96,8 @@ func start_charging():
 
 func start_shooting():
     state = SlingshotState.SHOOTING
+    
+    satelliteCounter.decreate_counter()
 
     target_saddle_pos = saddle.position * -0.75
     
@@ -127,7 +130,7 @@ func _input(event):
         var mouse_event := event as InputEventMouseButton
 
         if mouse_event.button_index == MOUSE_BUTTON_LEFT:
-            if mouse_event.pressed && state == SlingshotState.IDLE && earth.hovered:
+            if mouse_event.pressed && state == SlingshotState.IDLE && earth.hovered && satelliteCounter.satelliteCount > 0:
                 start_charging()
             elif !mouse_event.pressed && state == SlingshotState.CHARGING:
                 start_shooting()
