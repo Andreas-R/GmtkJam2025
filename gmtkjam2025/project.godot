@@ -21,6 +21,10 @@ window/size/viewport_width=1600
 window/size/viewport_height=1200
 window/stretch/mode="canvas_items"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/donut_collision_polygon2D/plugin.cfg")
+
 [input]
 
 left_mouse_click={
