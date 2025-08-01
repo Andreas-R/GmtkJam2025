@@ -63,7 +63,8 @@ func _process(_delta: float):
             saddle_shadow.global_rotation = saddle.global_rotation
             place_band(band_1, band_1_end, band_1_handle, band_1_handle_shadow, band_1_shadow)
             place_band(band_2, band_2_end, band_2_handle, band_2_handle_shadow, band_2_shadow)
-            var orbit := orbitManager.get_closest_orbit(global_position + dir.normalized() * dist * 5)
+            var max_orbit_radius: float = orbitManager.orbit_radius_offset + max(0, orbitManager._orbits.size() - 1) * orbitManager.orbit_radius_distance
+            var orbit := orbitManager.get_closest_orbit(global_position + dir.normalized() * dist * (max_orbit_radius / max_charge_dist))
             if orbit != null:
                 crosshair.global_position = global_position + dir.normalized() * orbit.radius
                 crosshair.global_rotation = crosshair.global_position.angle() + PI * 0.5
