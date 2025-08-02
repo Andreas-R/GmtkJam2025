@@ -80,7 +80,7 @@ func play_orbit_tutorial():
             var x = 480.0 + 180 * 4 * t * (1 - t)
             var y = lerp(-510.0, 350.0, t)
             hand.global_position = Vector2(x, y),
-        0.0, 1.0, 2.0
+        0.0, 1.0, 1.75
     ).set_delay(0.25)
     orbit_tutorial_tween.tween_property(hand, "global_position", Vector2(480.0, 320.0), 0.15).set_delay(0.25)
     orbit_tutorial_tween.tween_property(hand, "global_rotation_degrees", -45.0, 0.5).set_delay(0.25)
