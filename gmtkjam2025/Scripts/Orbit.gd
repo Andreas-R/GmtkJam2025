@@ -62,8 +62,8 @@ func _process(delta: float) -> void:
                 _change_state(OrbitState.HOVERED if _is_hovered else OrbitState.IDLE)
         _:
             _local_rotation_speed_deg = lerpf(_local_rotation_speed_deg, _get_base_rotation_speed(_base_rotation_direction), 0.05)
-    #_satellite_container.rotation += deg_to_rad(_local_rotation_speed_deg) * delta
-    #_satellite_targets._rotate(satellite_approach_speed * sign(_local_rotation_speed_deg), delta)
+    _satellite_container.rotation += deg_to_rad(_local_rotation_speed_deg) * delta
+    _satellite_targets._rotate(satellite_approach_speed * sign(_local_rotation_speed_deg), delta)
     _orbit_outline._rotate(_local_rotation_speed_deg, delta)
 
 func _get_base_rotation_speed(direction: float) -> float:
