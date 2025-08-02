@@ -104,13 +104,13 @@ func _change_state(new_state: OrbitState) -> void:
             _orbit_outline.slow_rotation()
             get_tree().create_tween().tween_property(_orbit_outline, "_color", _orbit_outline.hover_color, 0.1)
             _hover_width_tween = create_tween()
-            _hover_width_tween.tween_property(_orbit_outline, "_local_line_width", _orbit_outline.line_width * _hover_line_width_multiplier, 0.15)
+            _hover_width_tween.tween_property(_orbit_outline, "line_width_multiplier", _hover_line_width_multiplier, 0.15)
 
 func _reset_hover_state() -> void:
     if _hover_width_tween != null and _hover_width_tween.is_running():
         _hover_width_tween.kill()
     _hover_width_tween = create_tween()
-    _hover_width_tween.tween_property(_orbit_outline, "_local_line_width", _orbit_outline.line_width, 0.1)
+    _hover_width_tween.tween_property(_orbit_outline, "line_width_multiplier", 1.0, 0.1)
 
 func _get_configuration_warnings() -> PackedStringArray:
     if not get_children().any(func(c): return is_instance_of(c, DonutCollisionPolygon2D)):
