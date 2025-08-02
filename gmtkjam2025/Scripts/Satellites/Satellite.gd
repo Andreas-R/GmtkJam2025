@@ -86,6 +86,7 @@ func dismiss_from_orbits():
 
 func on_satellite_left():
     leaving_star.reparent(main)
+    leaving_star.rotation = 0
     leaving_star.play()
     # TODO: Play Sound Effect
     queue_free()
