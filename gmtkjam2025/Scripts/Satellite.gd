@@ -59,6 +59,7 @@ func destroy():
     var explosion := explosion_prefab.instantiate() as Explosion
     main.add_child(explosion)
     explosion.global_position = global_position
+    explosion.play()
     if target_node != null:
         target_node.queue_free()
     queue_free()
