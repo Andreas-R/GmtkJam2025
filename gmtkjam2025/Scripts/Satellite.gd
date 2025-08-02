@@ -2,6 +2,12 @@ class_name Satellite
 
 extends Node2D
 
+enum SatelliteType {
+    DEFAULT,
+    SHIELDER,
+    CHARGER,
+}
+
 enum SatelliteState {
     IDLE,
     TARGETING,

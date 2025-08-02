@@ -8,12 +8,13 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_aperj"]
 radius = 294.17
 
-[node name="Satellite" instance=ExtResource("1_3xhyp")]
+[node name="ShieldSatellite" instance=ExtResource("1_3xhyp")]
 
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("2_5x4sq")
 
 [node name="EnergyShield" type="Sprite2D" parent="." index="2"]
+z_index = 1
 scale = Vector2(1e-05, 1e-05)
 texture = ExtResource("2_aperj")
 script = ExtResource("3_0yn40")

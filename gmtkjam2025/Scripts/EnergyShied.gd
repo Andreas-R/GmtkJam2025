@@ -7,7 +7,7 @@ extends Node2D
 
 var deploy_tween: Tween
 
-var cooldown: float = 15.0;
+var cooldown: float = 30.0;
 
 func on_timer_timeout() -> void:
     deploy_shield()

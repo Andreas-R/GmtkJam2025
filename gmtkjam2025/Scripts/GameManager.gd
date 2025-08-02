@@ -2,11 +2,12 @@ class_name GameManager
 
 extends Node2D
 
-static var ORBIT_THRESHOLDS = [0, 3, 7, 12, 18, 25, 32];
-static var ASTEROID_SPAWN_TIMES = [10.0, 9.5, 9.0, 8.5, 8.0, 7.5, 7.0];
+static var ORBIT_THRESHOLDS = [0, 5, 10, 16, 24, 35, 50];
+static var ASTEROID_SPAWN_TIMES = [15.0, 13.0, 11.0, 9.5, 8.0, 7.5, 7.0];
 
 @onready var game_ui_manager: GameUiManager = $/root/Main/UI/GameUI
 @onready var camera_controller: CameraController = $/root/Main/CameraController
+@onready var upgrade_ui_manager: UpgradeUiManager = $/root/Main/UI/UpgradeUI
 @onready var orbit_manager: OrbitManager = $/root/Main/OrbitManager
 @onready var asteroid_spawner: AsteroidSpawner = $/root/Main/AsteroidSpawner
 
@@ -33,7 +34,12 @@ func check_for_next_orbit():
         orbit_manager.add_orbit()
         camera_controller.zoom_camera()
         asteroid_spawner.spawn_time = ASTEROID_SPAWN_TIMES[orbit_count]
+
         if orbit_count < ORBIT_THRESHOLDS.size() - 1:
             game_ui_manager.update_next_orbit(ORBIT_THRESHOLDS[orbit_count + 1])
         else:
             game_ui_manager.hide_next_orbit()
+
+        await get_tree().create_timer(1.5).timeout
+
+        upgrade_ui_manager.show_menu()

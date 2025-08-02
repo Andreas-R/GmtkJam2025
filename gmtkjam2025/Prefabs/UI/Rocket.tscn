@@ -1,0 +1,183 @@
+[gd_scene load_steps=11 format=3 uid="uid://mdlsfh0u7pbf"]
+
+[ext_resource type="Script" uid="uid://3o1gythirwug" path="res://Scripts/UI/RocketController.gd" id="1_0tjlj"]
+[ext_resource type="Texture2D" uid="uid://bnygic25welgo" path="res://Sprites/rocket.png" id="1_j3p5j"]
+[ext_resource type="Texture2D" uid="uid://brj26nhml8sf6" path="res://Sprites/satellite_silhouette.png" id="2_ihoco"]
+[ext_resource type="Texture2D" uid="uid://0uwck4gmtlxw" path="res://Sprites/satellite.png" id="2_iy4yp"]
+[ext_resource type="Texture2D" uid="uid://cnu636j6vd64o" path="res://Sprites/satellite_shielder.png" id="3_my4cl"]
+[ext_resource type="FontFile" uid="uid://d2wc1u7ejmb4c" path="res://Fonts/Protomolecule.otf" id="4_my4cl"]
+[ext_resource type="Texture2D" uid="uid://cc28yn4kaeg58" path="res://Sprites/fire_particle.png" id="5_utl2a"]
+[ext_resource type="Texture2D" uid="uid://dt4ehc46wn2of" path="res://Sprites/satellite_charger.png" id="6_3w7n4"]
+
+[sub_resource type="Curve" id="Curve_0tjlj"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.251309, 1), 0.0, 0.0, 0, 0, Vector2(0.747774, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Gradient" id="Gradient_oy1cn"]
+offsets = PackedFloat32Array(0, 0.533762, 1)
+colors = PackedColorArray(1, 0.766667, 0, 1, 0.947849, 0.539579, 3.85046e-07, 1, 0.95, 0.253333, 0, 1)
+
+[node name="Rocket" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_0tjlj")
+
+[node name="Center" type="Control" parent="."]
+anchors_preset = 0
+
+[node name="RocketTextureRect" type="TextureButton" parent="Center"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("1_j3p5j")
+
+[node name="Cargo" type="Control" parent="Center"]
+anchors_preset = 0
+offset_top = -19.0
+offset_bottom = -19.0
+mouse_filter = 2
+
+[node name="Shadow" type="TextureRect" parent="Center/Cargo"]
+modulate = Color(0, 0, 0, 0.2)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -64.0
+offset_right = 102.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_ihoco")
+
+[node name="Satellite" type="TextureRect" parent="Center/Cargo"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_iy4yp")
+
+[node name="ShieldSatellite" type="TextureRect" parent="Center/Cargo"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_my4cl")
+
+[node name="ChargerSatellite" type="TextureRect" parent="Center/Cargo"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("6_3w7n4")
+
+[node name="AmountLabel" type="Control" parent="Center"]
+anchors_preset = 0
+offset_top = 105.0
+offset_bottom = 105.0
+mouse_filter = 2
+
+[node name="Value" type="Label" parent="Center/AmountLabel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = -25.0
+offset_right = 21.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.2)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 0
+theme_override_fonts/font = ExtResource("4_my4cl")
+theme_override_font_sizes/font_size = 40
+text = "+5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Center"]
+z_index = -1
+position = Vector2(-145, 203)
+amount = 30
+texture = ExtResource("5_utl2a")
+lifetime = 0.5
+local_coords = true
+emission_shape = 1
+emission_sphere_radius = 25.0
+direction = Vector2(0, 1)
+spread = 15.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 300.0
+initial_velocity_max = 300.0
+scale_amount_min = 0.5
+scale_amount_curve = SubResource("Curve_0tjlj")
+color_ramp = SubResource("Gradient_oy1cn")
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="Center"]
+z_index = -1
+position = Vector2(145, 203)
+amount = 30
+texture = ExtResource("5_utl2a")
+lifetime = 0.5
+local_coords = true
+emission_shape = 1
+emission_sphere_radius = 25.0
+direction = Vector2(0, 1)
+spread = 15.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 300.0
+initial_velocity_max = 300.0
+scale_amount_min = 0.5
+scale_amount_curve = SubResource("Curve_0tjlj")
+color_ramp = SubResource("Gradient_oy1cn")
+
+[connection signal="mouse_entered" from="Center/RocketTextureRect" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Center/RocketTextureRect" to="." method="_on_mouse_exited"]
+[connection signal="pressed" from="Center/RocketTextureRect" to="." method="_on_pressed"]

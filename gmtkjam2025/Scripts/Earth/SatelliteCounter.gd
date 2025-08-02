@@ -10,8 +10,8 @@ extends Node2D
 @onready var counter_label: Label = $CounterPivot/CounterLabel
 @onready var progress: TextureProgressBar = $Progress
 
-var satellite_count: int = 100;
-var spawn_time: float = 5;
+var satellite_count: int = 0;
+var spawn_time: float = 6;
 var wobble_tween: Tween
 
 func _ready() -> void:
@@ -27,13 +27,17 @@ func start_timer(wait_time: float):
     timer.start(wait_time)
 
 func on_timer_timeout() -> void:
-    satellite_count += 1
-    update_counter()
-    wobble()
+    increase_counter(1)
     start_timer(spawn_time)
 
 func update_counter():
     counter_label.text = str(satellite_count)
+    
+func increase_counter(amount: int, animate = true):
+    satellite_count += amount
+    update_counter()
+    if animate:
+        wobble()
 
 func decrease_counter():
     satellite_count -= 1

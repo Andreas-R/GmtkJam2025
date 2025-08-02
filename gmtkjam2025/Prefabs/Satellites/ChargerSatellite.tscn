@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvf1bbey3vqm"]
+
+[ext_resource type="PackedScene" uid="uid://c8738rgh5r4su" path="res://Prefabs/Satellites/Satellite.tscn" id="1_hb8bx"]
+[ext_resource type="Texture2D" uid="uid://dt4ehc46wn2of" path="res://Sprites/satellite_charger.png" id="2_gmn13"]
+
+[node name="ChargerSatellite" instance=ExtResource("1_hb8bx")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_gmn13")

@@ -1,10 +1,55 @@
-[gd_scene format=3 uid="uid://gr1u4x2q3ufk"]
+[gd_scene load_steps=3 format=3 uid="uid://gr1u4x2q3ufk"]
 
-[node name="UpgradeUI" type="Control"]
-visible = false
+[ext_resource type="Script" uid="uid://mothowdx8kye" path="res://Scripts/UI/UpgradeUiManager.gd" id="1_kijmx"]
+[ext_resource type="PackedScene" uid="uid://mdlsfh0u7pbf" path="res://Prefabs/UI/Rocket.tscn" id="2_0f0m4"]
+
+[node name="UpgradeUI" type="Control" node_paths=PackedStringArray("rockets")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_kijmx")
+rockets = [NodePath("Rockets/Rocket1"), NodePath("Rockets/Rocket2"), NodePath("Rockets/Rocket3")]
+
+[node name="Background" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Rockets" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Rocket1" parent="Rockets" instance=ExtResource("2_0f0m4")]
+offset_left = -450.0
+offset_top = 1200.0
+offset_right = -450.0
+offset_bottom = 1200.0
+amount = 5
+
+[node name="Rocket2" parent="Rockets" instance=ExtResource("2_0f0m4")]
+offset_top = 1200.0
+offset_bottom = 1200.0
+index = 1
+satellite_type = 1
+
+[node name="Rocket3" parent="Rockets" instance=ExtResource("2_0f0m4")]
+offset_left = 450.0
+offset_top = 1200.0
+offset_right = 450.0
+offset_bottom = 1200.0
+index = 2
+satellite_type = 2

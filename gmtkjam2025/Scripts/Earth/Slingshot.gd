@@ -9,6 +9,8 @@ enum SlingshotState {
 }
 
 static var satellite_prefab: PackedScene = load("res://Prefabs/Satellites/Satellite.tscn") as PackedScene
+static var shield_satellite_prefab: PackedScene = load("res://Prefabs/Satellites/ShieldSatellite.tscn") as PackedScene
+static var charger_satellite_prefab: PackedScene = load("res://Prefabs/Satellites/ChargerSatellite.tscn") as PackedScene
 
 @export var aim_color: Color = Color.RED
 @export var aim_crosshair_color: Color = Color.RED
@@ -41,6 +43,8 @@ var satellite: Satellite
 var saddle_shadow_offset = Vector2(15.0, 8.0)
 var band_shadow_offset = Vector2(10.0, 5.0)
 var band_handle_shadow_offset = Vector2(8.0, 3.0)
+
+var next_satellite: Satellite.SatelliteType = Satellite.SatelliteType.DEFAULT
 
 signal state_changed(new_state: SlingshotState)
 
@@ -134,7 +138,18 @@ func place_band(band: Node2D, band_end: Node2D, band_handle: Node2D, band_handle
     band_shadow.scale.y = band.scale.y
 
 func spawn_satellite():
-    satellite = satellite_prefab.instantiate() as Satellite
+    var prefab: PackedScene
+
+    if next_satellite == Satellite.SatelliteType.SHIELDER:
+        prefab = shield_satellite_prefab
+    elif next_satellite == Satellite.SatelliteType.CHARGER:
+        prefab = charger_satellite_prefab
+    else:
+        prefab = satellite_prefab
+
+    next_satellite = Satellite.SatelliteType.DEFAULT
+
+    satellite = prefab.instantiate() as Satellite
     saddle.add_child(satellite)
     satellite.global_position = saddle.global_position
     satellite.global_rotation = saddle.global_rotation
