@@ -31,6 +31,7 @@ func _process(delta: float):
             var dist := (target_node.global_position - global_position).length()
             speed = max(dist * speed_factor, min_speed)
             global_position = global_position.move_toward(target_node.global_position, speed * delta)
+            global_position = global_position.move_toward(global_position.normalized() * target_orbit.radius, 0.2 * speed * delta)
             global_rotation = global_position.angle() + PI / 2
 
             if !is_approaching_target_position and dist < 150:
