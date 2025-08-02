@@ -25,6 +25,6 @@ custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("2_ev241")
 theme_override_font_sizes/normal_font_size = 40
-text = "7G/5G"
+text = "7/5"
 scroll_active = false
 vertical_alignment = 1
