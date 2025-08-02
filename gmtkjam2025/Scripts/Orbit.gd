@@ -23,6 +23,7 @@ static var _satellite_spacer_prefab: PackedScene = preload("res://Prefabs/Satell
 @export var orbit_index: int = 0
 
 var radius: float = 200
+var satellite_approach_speed: float = 20
 
 var _collider_width: float = 100
 
@@ -62,7 +63,7 @@ func _process(delta: float) -> void:
         _:
             _local_rotation_speed_deg = lerpf(_local_rotation_speed_deg, _get_base_rotation_speed(_base_rotation_direction), 0.05)
     _satellite_container.rotation += deg_to_rad(_local_rotation_speed_deg) * delta
-    _satellite_targets._rotate(_get_base_rotation_speed(sign(_local_rotation_speed_deg)), delta)
+    _satellite_targets._rotate(satellite_approach_speed * sign(_local_rotation_speed_deg), delta)
     _orbit_outline._rotate(_local_rotation_speed_deg, delta)
 
 func _get_base_rotation_speed(direction: float) -> float:
