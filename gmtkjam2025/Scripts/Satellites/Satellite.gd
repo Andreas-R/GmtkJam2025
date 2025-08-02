@@ -14,7 +14,7 @@ enum SatelliteState {
     IN_ORBIT,
 }
 
-static var explosion_prefab: PackedScene = load("res://Prefabs/Explosion.tscn") as PackedScene
+static var explosion_prefab: PackedScene = load("res://Prefabs/Satellites/Explosion.tscn") as PackedScene
 
 @export var speed_factor: float = 1.5
 @export var min_speed: float = 100

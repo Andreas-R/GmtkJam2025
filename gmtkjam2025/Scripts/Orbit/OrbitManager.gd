@@ -2,7 +2,7 @@ class_name OrbitManager
 
 extends Node2D
 
-static var _orbit_prefab: PackedScene = preload("res://Prefabs/Orbit.tscn")
+static var _orbit_prefab: PackedScene = preload("res://Prefabs/Orbit/Orbit.tscn")
 
 @onready var _slingshot: Slingshot = $/root/Main/Earth/Slingshot
 @onready var camera_controller: CameraController = $/root/Main/CameraController
