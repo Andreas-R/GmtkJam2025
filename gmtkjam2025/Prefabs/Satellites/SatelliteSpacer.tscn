@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://0ija5qo4q0ac"]
 
-[ext_resource type="Script" uid="uid://dok5xyfj3yj53" path="res://Scripts/SatelliteSpacer.gd" id="1_0kuuk"]
+[ext_resource type="Script" uid="uid://dok5xyfj3yj53" path="res://Scripts/Satellites/SatelliteSpacer.gd" id="1_0kuuk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0kuuk"]
 radius = 1.0

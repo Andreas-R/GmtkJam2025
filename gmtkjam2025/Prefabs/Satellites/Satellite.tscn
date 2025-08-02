@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c8738rgh5r4su"]
 
-[ext_resource type="Script" uid="uid://bsor82dq7xplm" path="res://Scripts/Satellite.gd" id="1_t3xv7"]
+[ext_resource type="Script" uid="uid://bsor82dq7xplm" path="res://Scripts/Satellites/Satellite.gd" id="1_t3xv7"]
 [ext_resource type="Texture2D" uid="uid://0uwck4gmtlxw" path="res://Sprites/satellite.png" id="2_es6a1"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t3xv7"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cd4y56l75yr13"]
 
-[ext_resource type="Script" uid="uid://b8qglwa256lg8" path="res://Scripts/Orbit.gd" id="1_1fuu5"]
-[ext_resource type="Script" uid="uid://dw65305324iwv" path="res://Scripts/OrbitOutline.gd" id="2_1fuu5"]
+[ext_resource type="Script" uid="uid://b8qglwa256lg8" path="res://Scripts/Orbit/Orbit.gd" id="1_1fuu5"]
+[ext_resource type="Script" uid="uid://dw65305324iwv" path="res://Scripts/Orbit/OrbitOutline.gd" id="2_1fuu5"]
 [ext_resource type="Script" uid="uid://b34sml2qw4v2c" path="res://addons/donut_collision_polygon2D/donut_collision_polygon2D.gd" id="2_03wf0"]
 [ext_resource type="Script" uid="uid://cook7kkhwn8hg" path="res://Scripts/Orbit/SatelliteTargets.gd" id="4_03wf0"]
 [ext_resource type="FontFile" uid="uid://d2wc1u7ejmb4c" path="res://Fonts/Protomolecule.otf" id="5_cnj81"]
