@@ -1,6 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://dvtk8q58xdol6"]
+[gd_scene load_steps=3 format=3 uid="uid://dvtk8q58xdol6"]
 
 [ext_resource type="Script" uid="uid://d2ir8yjv8vbjl" path="res://Scripts/TutorialHandler.gd" id="1_13c80"]
+[ext_resource type="Texture2D" uid="uid://c1q6wtqyvh77e" path="res://Sprites/hand.png" id="2_qklph"]
 
 [node name="TutorialHandler" type="Node2D"]
 script = ExtResource("1_13c80")
+
+[node name="Hand" type="Node2D" parent="."]
+visible = false
+z_index = 20
+
+[node name="Shadow" type="Sprite2D" parent="Hand"]
+modulate = Color(0, 0, 0, 0.2)
+z_index = -1
+position = Vector2(12, -19)
+texture = ExtResource("2_qklph")
+
+[node name="Sprite2D" type="Sprite2D" parent="Hand"]
+position = Vector2(0, -22)
+texture = ExtResource("2_qklph")

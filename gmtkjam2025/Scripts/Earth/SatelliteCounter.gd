@@ -5,30 +5,31 @@ extends Node2D
 @export var color1: Color = Color.RED
 @export var color2: Color = Color.GREEN
 
+@onready var game_manager: GameManager = $/root/Main/GameManager
 @onready var timer: Timer = $Timer
 @onready var counter_pivot: Node2D = $CounterPivot
 @onready var counter_label: Label = $CounterPivot/CounterLabel
 @onready var progress: TextureProgressBar = $Progress
 
-var satellite_count: int = 0;
+var satellite_count: int = 1;
 var spawn_time: float = 6.0;
 var wobble_tween: Tween
 
 func _ready() -> void:
     update_counter()
-    start_timer(spawn_time)
 
 func _process(_delta: float):
-    var t := (timer.wait_time - timer.time_left) / timer.wait_time
-    progress.value = t * 100
-    progress.modulate = lerp(color1, color2, t)
+    if game_manager.started_game:
+        var t := (timer.wait_time - timer.time_left) / timer.wait_time
+        progress.value = t * 100
+        progress.modulate = lerp(color1, color2, t)
 
-func start_timer(wait_time: float):
-    timer.start(wait_time)
+func start():
+    timer.start(spawn_time)
 
 func on_timer_timeout() -> void:
     increase_counter(1)
-    start_timer(spawn_time)
+    timer.start(spawn_time)
 
 func update_counter():
     counter_label.text = str(satellite_count)

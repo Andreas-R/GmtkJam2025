@@ -12,8 +12,8 @@ var demand: int = 0
 var health_decrease: float = 0.5
 var health_increase: float = 0.5
 
-func _ready() -> void:
-    start_timer(tick_time)
+func start():
+    timer.start(tick_time)
 
 func _process(delta: float):
     var satellite_count := orbit_manager.count_satellites()
@@ -29,12 +29,9 @@ func _process(delta: float):
     if health <= 0:
         pass # Game over
 
-func start_timer(wait_time: float):
-    timer.start(wait_time)
-
 func on_timer_timeout() -> void:
     increase_demand(1)
-    start_timer(tick_time)
+    timer.start(tick_time)
 
 func increase_demand(amount: int):
     demand += amount

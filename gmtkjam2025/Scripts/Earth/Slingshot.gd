@@ -174,6 +174,8 @@ func start_charging():
 
 func start_shooting():
     _change_state(SlingshotState.SHOOTING)
+
+    TutorialController.made_initial_shot = true
     
     crosshair.visible = false
     

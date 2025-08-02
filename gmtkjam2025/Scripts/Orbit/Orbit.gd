@@ -245,6 +245,8 @@ func on_orbit_drag_end(_index: int) -> void:
     _is_other_dragged = false
     if _is_hovered:
         _change_state(OrbitState.HOVERED)
+    if TutorialController.made_initial_shot:
+        TutorialController.made_initial_orbit_drag = true
 
 func on_slingshot_state_changed(slingshot_state: Slingshot.SlingshotState):
     _slingshot_state = slingshot_state
