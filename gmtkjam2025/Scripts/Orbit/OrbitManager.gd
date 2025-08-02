@@ -66,10 +66,10 @@ func get_closest_orbit(target_position: Vector2) -> Orbit:
     var closest_orbit = _orbits.get(clamp(orbit_index, 0, _orbits.size() - 1))
     return closest_orbit
 
-func target_orbit(target: Orbit) -> void:
+func target_orbit(target: Orbit, target_pos: Vector2) -> void:
     for orbit: Orbit in _orbits:
         if orbit == target:
-            orbit.target()
+            orbit.target(target_pos)
         else:
             orbit.untarget()
 
