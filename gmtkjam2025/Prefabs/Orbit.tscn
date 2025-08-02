@@ -1,12 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://cd4y56l75yr13"]
+[gd_scene load_steps=6 format=3 uid="uid://cd4y56l75yr13"]
 
 [ext_resource type="Script" uid="uid://b8qglwa256lg8" path="res://Scripts/Orbit.gd" id="1_1fuu5"]
 [ext_resource type="Script" uid="uid://dw65305324iwv" path="res://Scripts/OrbitOutline.gd" id="2_1fuu5"]
 [ext_resource type="Script" uid="uid://b34sml2qw4v2c" path="res://addons/donut_collision_polygon2D/donut_collision_polygon2D.gd" id="2_03wf0"]
 [ext_resource type="Script" uid="uid://cook7kkhwn8hg" path="res://Scripts/Orbit/SatelliteTargets.gd" id="4_03wf0"]
+[ext_resource type="FontFile" uid="uid://d2wc1u7ejmb4c" path="res://Fonts/Protomolecule.otf" id="5_cnj81"]
 
 [node name="Orbit" type="Area2D" node_paths=PackedStringArray("_orbit_outline", "_satellite_targets")]
-rotation = 109.597
 script = ExtResource("1_1fuu5")
 _orbit_outline = NodePath("Outline")
 _satellite_targets = NodePath("SatelliteTargets")
@@ -26,6 +26,30 @@ metadata/_custom_type_script = "uid://b34sml2qw4v2c"
 script = ExtResource("4_03wf0")
 
 [node name="Satellites" type="Node2D" parent="."]
+
+[node name="LimitLabel" type="Node2D" parent="."]
+z_index = -10
+position = Vector2(0, -232)
+
+[node name="Value" type="Label" parent="LimitLabel"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = -18.5
+offset_right = 21.0
+offset_bottom = 18.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("5_cnj81")
+theme_override_font_sizes/font_size = 50
+text = "0/0"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

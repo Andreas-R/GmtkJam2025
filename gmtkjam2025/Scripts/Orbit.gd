@@ -11,19 +11,23 @@ enum OrbitState {
 
 static var _satellite_spacer_prefab: PackedScene = preload("res://Prefabs/Satellites/SatelliteSpacer.tscn")
 
-@onready var game_manager: GameManager = $/root/Main/GameManager
-@onready var _donut_collider: DonutCollisionPolygon2D = $DonutCollider
-@export var _orbit_outline: OrbitOutline 
-@onready var _satellite_container: Node = $Satellites
-@export var _satellite_targets: SatelliteTargets
-
 @export_range(0, 360) var rotation_speed_deg: float = 20
 @export_category("Satellite Properties")
 @export var min_satellite_spacing: float = 100.0
 @export var orbit_index: int = 0
+@export var _orbit_outline: OrbitOutline 
+@export var _satellite_targets: SatelliteTargets
+
+@onready var game_manager: GameManager = $/root/Main/GameManager
+@onready var _donut_collider: DonutCollisionPolygon2D = $DonutCollider
+@onready var _satellite_container: Node = $Satellites
+@onready var _limit_label: Node2D = $LimitLabel
+@onready var _limit_label_value: Label = $LimitLabel/Value
 
 var radius: float = 200
 var satellite_approach_speed: float = 20
+
+var _max_satellites = 0
 
 var _collider_width: float = 100
 
@@ -50,6 +54,10 @@ func _ready():
     _donut_collider.width = _collider_width
     _base_rotation_direction = 1 if _orbit_outline.clockwise_rotation else -1
     _local_rotation_speed_deg = _get_base_rotation_speed(_base_rotation_direction)
+    _max_satellites = floori((2 * radius * PI) / (min_satellite_spacing * 3))
+    _orbit_outline._color = _orbit_outline.base_color
+    _limit_label.position = Vector2(0, radius - 70)
+    _limit_label_value.modulate = _orbit_outline.base_color
 
 func blend_in():
     var blend_in_tween = get_tree().create_tween()
@@ -57,6 +65,8 @@ func blend_in():
     blend_in_tween.tween_property(self, "modulate", Color.WHITE, 1.0)
 
 func _process(delta: float) -> void:
+    _limit_label_value.text = str(count_satellites(), "/", _max_satellites)
+
     match _state:
         OrbitState.DRAGGED:
             var current_angle = get_local_mouse_position().rotated(-_satellite_container.rotation).angle()
@@ -96,19 +106,23 @@ func _change_state(new_state: OrbitState) -> void:
     match new_state:
         OrbitState.IDLE:
             get_tree().create_tween().tween_property(_orbit_outline, "_color", _orbit_outline.base_color, 0.1)
+            get_tree().create_tween().tween_property(_limit_label_value, "modulate", _orbit_outline.base_color, 0.1)
             _orbit_outline.start_rotation()
         OrbitState.DRAGGED:
             get_tree().create_tween().tween_property(_orbit_outline, "_color", _orbit_outline.drag_color, 0.1)
+            get_tree().create_tween().tween_property(_limit_label_value, "modulate", _orbit_outline.drag_color, 0.1)
             _orbit_outline.start_rotation()
             _orbit_drag_start_signal.emit(orbit_index)
         OrbitState.TARGETTED:
             get_tree().create_tween().tween_property(_orbit_outline, "_color", _orbit_outline.target_color, 0.1)
+            get_tree().create_tween().tween_property(_limit_label_value, "modulate", _orbit_outline.target_color, 0.1)
         OrbitState.HOVERED:
             if old_state == OrbitState.TARGETTED and not _is_hovered:
                 # Cannot go into hovered state if targetted
                 return
             _orbit_outline.slow_rotation()
             get_tree().create_tween().tween_property(_orbit_outline, "_color", _orbit_outline.hover_color, 0.1)
+            get_tree().create_tween().tween_property(_limit_label_value, "modulate", _orbit_outline.hover_color, 0.1)
             _hover_width_tween = create_tween()
             _hover_width_tween.tween_property(_orbit_outline, "line_width_multiplier", _hover_line_width_multiplier, 0.15)
 
