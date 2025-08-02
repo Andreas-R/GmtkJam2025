@@ -31,6 +31,7 @@ func add_orbit() -> void:
     new_orbit._orbit_outline.set_line_width(3 * camera_controller.calc_zoom_scale(_orbits.size()))
     new_orbit._orbit_outline.clockwise_rotation = (_orbits.size() % 2) == 0
     new_orbit._orbit_outline.rotation_speed_deg = max(base_orbit_rotation_speed - _orbits.size() * 2, 1)
+    new_orbit.rotation_speed_deg = max(base_orbit_rotation_speed - _orbits.size() * 2, 1)
     new_orbit.satellite_approach_speed = max(base_orbit_rotation_speed - _orbits.size() * 2, 1)
     new_orbit.set_collider_width(orbit_radius_distance)
     new_orbit.set_min_satellite_spacing(min_satellite_spacing)
