@@ -57,7 +57,8 @@ func _ready():
     _donut_collider.width = _collider_width
     _base_rotation_direction = 1 if _orbit_outline.clockwise_rotation else -1
     _local_rotation_speed_deg = _get_base_rotation_speed(_base_rotation_direction)
-    _max_satellites = floori((2 * radius * PI) / (min_satellite_spacing * 3))
+    #_max_satellites = floori((2 * radius * PI) / (min_satellite_spacing * 3))
+    _max_satellites = 1
     _orbit_outline._color = _orbit_outline.base_color
     _limit_label.position = Vector2(0, radius - 70)
     _limit_label_value.modulate = _orbit_outline.base_color
@@ -163,18 +164,17 @@ func attach_satellite(attached_satellite: Satellite) -> void:
     attached_satellite.add_child(satellite_spacer)
     attached_satellite.reparent(_satellite_container)
     satellite_spacer.set_orbit_index(orbit_index)
-    # if orbit is full -> pick the closest satellite and push it one orbit outwards
+    # if orbit is full pick the closest satellite and push it one orbit outwards
     if count_satellites() > _max_satellites:
         var kicked_out_satellite: Satellite = get_closest_satellite_to(attached_satellite)
         var kicked_out_spacer: SatelliteSpacer = kicked_out_satellite.get_spacer()
         kicked_out_spacer.queue_free()
-        # if next orbit does not exist --> satellite.explode
         if _next_orbit != null:
-            var position_in_next_orbit: Vector2 = kicked_out_satellite.global_position.normalized() * _next_orbit.radius # TODO: Calculate
+            var position_in_next_orbit: Vector2 = kicked_out_satellite.global_position.normalized() * _next_orbit.radius
             kicked_out_satellite.reparent(main)
             kicked_out_satellite.target(position_in_next_orbit, _next_orbit)
         else:
-            kicked_out_satellite.destroy()
+            kicked_out_satellite.dismiss_from_orbits()
     game_manager.check_for_next_orbit()
 
 func get_closest_satellite_to(reference_satellite: Satellite) -> Satellite:

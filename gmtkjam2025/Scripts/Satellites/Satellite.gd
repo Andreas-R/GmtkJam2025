@@ -12,6 +12,7 @@ enum SatelliteState {
     IDLE,
     TARGETING,
     IN_ORBIT,
+    LEAVING,
 }
 
 static var explosion_prefab: PackedScene = load("res://Prefabs/Satellites/Explosion.tscn") as PackedScene
@@ -20,6 +21,7 @@ static var explosion_prefab: PackedScene = load("res://Prefabs/Satellites/Explos
 @export var min_speed: float = 100
 
 @onready var main: Node2D = $/root/Main
+@onready var leaving_star: LeavingStar = $LeavingStar
 
 var state: SatelliteState = SatelliteState.IDLE
 
@@ -28,6 +30,11 @@ var speed: float = 0
 
 var is_approaching_target_position: bool = false
 var target_node: Node2D
+
+var leaving_rotation_direction: int = 1
+
+func _ready() -> void:
+    leaving_rotation_direction = [-1, 1].pick_random()
 
 func _process(delta: float):
     match state:
@@ -50,6 +57,8 @@ func _process(delta: float):
                 var energy_shield: EnergyShield = get_node_or_null("EnergyShield")
                 if energy_shield != null:
                     energy_shield.deploy_shield()
+        SatelliteState.LEAVING:
+            rotation += leaving_rotation_direction * delta * PI / 2
         SatelliteState.IN_ORBIT:
             pass
 
@@ -64,6 +73,22 @@ func damage():
     if state == SatelliteState.IDLE:
         return
     destroy()
+
+func dismiss_from_orbits():
+    get_spacer().queue_free()
+    reparent(main)
+    state = SatelliteState.LEAVING
+    var tween: Tween = create_tween()
+    tween.tween_property(self, "global_position", global_position.normalized() * (target_orbit.radius + 100), 1).set_ease(Tween.EASE_OUT)
+    tween.parallel().tween_property(self, "modulate", Color.hex(0x141624), 1).set_ease(Tween.EASE_OUT)
+    tween.parallel().tween_property(self, "scale", Vector2.ZERO, 1).set_ease(Tween.EASE_IN)
+    tween.tween_callback(on_satellite_left)
+
+func on_satellite_left():
+    leaving_star.reparent(main)
+    leaving_star.play()
+    # TODO: Play Sound Effect
+    queue_free()
 
 func destroy():
     var explosion := explosion_prefab.instantiate() as Explosion
