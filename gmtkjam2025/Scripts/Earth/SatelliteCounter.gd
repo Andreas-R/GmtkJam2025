@@ -11,7 +11,7 @@ extends Node2D
 @onready var progress: TextureProgressBar = $Progress
 
 var satellite_count: int = 0;
-var spawn_time: float = 5.0;
+var spawn_time: float = 6.0;
 var wobble_tween: Tween
 
 func _ready() -> void:
