@@ -8,6 +8,7 @@ extends Node2D
 @export_range(1, 200) var parts: int = 50
 @export_range(1, 100) var segments: int = 100
 @export_range(1, 100) var line_width: float = 3.0
+@export var line_width_multiplier: float = 1.0
 @export_group("Rotation")
 @export var clockwise_rotation: bool = true
 @export_range(0, 360) var rotation_speed_deg: float = 20
@@ -53,3 +54,6 @@ func slow_rotation() -> void:
 
 func start_rotation() -> void:
     _rotation_speed_multiplier = 1.0
+
+func set_line_width(_line_width: float) -> void:
+    _local_line_width = _line_width
