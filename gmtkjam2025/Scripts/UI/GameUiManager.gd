@@ -1,13 +1,13 @@
-class_name UiManager
+class_name GameUiManager
 
 extends Node
 
 @onready var game_manager: GameManager = $/root/Main/GameManager
 @onready var orbit_manager: OrbitManager = $/root/Main/OrbitManager
-@onready var demandPanel: Control = $GameUI/DemandPanel
-@onready var demandValueLabel: Label = $GameUI/DemandPanel/HBoxContainer/Value
-@onready var nextOrbitPanel: Control = $GameUI/NextOrbitPanel
-@onready var nextOrbitValueLabel: Label = $GameUI/NextOrbitPanel/HBoxContainer/Value
+@onready var demandPanel: Control = $DemandPanel
+@onready var demandValueLabel: Label = $DemandPanel/HBoxContainer/Value
+@onready var nextOrbitPanel: Control = $NextOrbitPanel
+@onready var nextOrbitValueLabel: Label = $NextOrbitPanel/HBoxContainer/Value
 
 func _ready():
     demandPanel.modulate = Color.TRANSPARENT

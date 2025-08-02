@@ -2,11 +2,10 @@
 
 [ext_resource type="Texture2D" uid="uid://n2n6ev26cn67" path="res://Sprites/wifi.png" id="1_f0fc3"]
 [ext_resource type="FontFile" uid="uid://cnol65dwh80k5" path="res://Fonts/Audiowide-Regular.ttf" id="1_ryj4e"]
-[ext_resource type="Script" uid="uid://ca7j5vtjx01w7" path="res://Scripts/UiManager.gd" id="1_u0s6x"]
+[ext_resource type="Script" uid="uid://ca7j5vtjx01w7" path="res://Scripts/UI/GameUiManager.gd" id="1_u0s6x"]
 [ext_resource type="FontFile" uid="uid://d2wc1u7ejmb4c" path="res://Fonts/Protomolecule.otf" id="2_ev241"]
 
 [node name="UI" type="CanvasLayer"]
-script = ExtResource("1_u0s6x")
 
 [node name="GameUI" type="Control" parent="."]
 layout_mode = 3
@@ -16,6 +15,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("1_u0s6x")
 
 [node name="DemandPanel" type="MarginContainer" parent="GameUI"]
 layout_mode = 1
@@ -113,3 +113,9 @@ offset_right = 128.0
 offset_bottom = 128.0
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("1_f0fc3")
+
+[node name="UpgradeUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
