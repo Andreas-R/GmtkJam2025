@@ -38,7 +38,7 @@ offset_left = -450.0
 offset_top = 1200.0
 offset_right = -450.0
 offset_bottom = 1200.0
-amount = 5
+amount = 3
 
 [node name="Rocket2" parent="Rockets" instance=ExtResource("2_0f0m4")]
 offset_top = 1200.0

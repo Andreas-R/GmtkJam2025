@@ -14,6 +14,9 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_i1xt3")
+demand_above_color = Color(0.1168, 0.73, 0.1168, 1)
+demand_at_color = Color(0.74, 0.717553, 0.0666, 1)
+demand_below_color = Color(0.75, 0.28425, 0.1425, 1)
 
 [node name="DemandPanel" type="MarginContainer" parent="."]
 layout_mode = 1
