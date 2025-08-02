@@ -205,6 +205,10 @@ func on_slingshot_state_changed(slingshot_state: Slingshot.SlingshotState):
     if slingshot_state != Slingshot.SlingshotState.AIMING and _state != OrbitState.DRAGGED and _is_hovered:
         _change_state(OrbitState.HOVERED)
 
+func on_upgrade_selection_started():
+    if _state != OrbitState.HOVERED:
+        _change_state(OrbitState.IDLE)
+
 func _on_mouse_entered() -> void:
     _is_hovered = true
     if _slingshot_state != Slingshot.SlingshotState.AIMING and _state != OrbitState.DRAGGED:

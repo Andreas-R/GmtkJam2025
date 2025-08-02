@@ -11,6 +11,8 @@ static var ASTEROID_SPAWN_TIMES = [15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0];
 @onready var orbit_manager: OrbitManager = $/root/Main/OrbitManager
 @onready var asteroid_spawner: AsteroidSpawner = $/root/Main/AsteroidSpawner
 
+signal upgrade_selection_started()
+
 func _ready() -> void:
     call_deferred("start_game")
 
@@ -42,4 +44,5 @@ func check_for_next_orbit():
 
         await get_tree().create_timer(1.5).timeout
 
+        upgrade_selection_started.emit()
         upgrade_ui_manager.show_menu()

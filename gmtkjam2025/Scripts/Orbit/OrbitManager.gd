@@ -5,6 +5,7 @@ extends Node2D
 static var _orbit_prefab: PackedScene = preload("res://Prefabs/Orbit/Orbit.tscn")
 
 @onready var _slingshot: Slingshot = $/root/Main/Earth/Slingshot
+@onready var _game_manager: GameManager = $/root/Main/GameManager
 @onready var camera_controller: CameraController = $/root/Main/CameraController
 
 @export var orbit_radius_offset: float = 600
@@ -40,6 +41,7 @@ func add_orbit() -> void:
     new_orbit.set_min_satellite_spacing(min_satellite_spacing)
     new_orbit.orbit_index = _orbits.size()
     _slingshot.state_changed.connect(new_orbit.on_slingshot_state_changed)
+    _game_manager.upgrade_selection_started.connect(new_orbit.on_upgrade_selection_started)
     new_orbit.set_orbit_drag_signals(orbit_drag_start, orbit_drag_end)
     orbit_drag_start.connect(new_orbit.on_orbit_drag_start)
     orbit_drag_end.connect(new_orbit.on_orbit_drag_end)
