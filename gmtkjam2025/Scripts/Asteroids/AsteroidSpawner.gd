@@ -10,16 +10,13 @@ static var asteroid_indicator_prefab: PackedScene = load("res://Prefabs/Asteroid
 var spawn_time: float = 5.0;
 var last_angle: float = 0;
 
-func init_spawner() -> void:
+func start():
     last_angle = randf_range(0, 2 * PI)
-    start_timer(spawn_time)
-
-func start_timer(wait_time: float):
-    timer.start(wait_time)
+    timer.start(spawn_time)
 
 func on_timer_timeout() -> void:
     spawn_asteroid_indicator()
-    start_timer(spawn_time)
+    timer.start(spawn_time)
 
 func spawn_asteroid_indicator():
     var number_of_orbits := orbitManager._orbits.size();

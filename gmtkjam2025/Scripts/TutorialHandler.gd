@@ -33,15 +33,15 @@ func play_slingshot_tutorial():
         hand.global_rotation_degrees = -45.0
         hand.scale = Vector2.ZERO
         hand.visible = true
-    ).set_delay(0.5).set_delay(2.0)
+    ).set_delay(0.5).set_delay(3.0)
     tutorial_tween.tween_property(hand, "scale", Vector2.ONE, 0.25)
     tutorial_tween.tween_property(hand, "global_position", Vector2(80.0, -80.0), 0.5).set_delay(0.5)
-    tutorial_tween.tween_property(hand, "global_rotation_degrees", -135.0, 0.5)
+    tutorial_tween.tween_property(hand, "global_rotation_degrees", -135.0, 0.5).set_delay(0.25)
     tutorial_tween.tween_property(hand, "global_position", Vector2(80.0, -50.0), 0.5).set_delay(0.25)
-    tutorial_tween.tween_property(hand, "global_position", Vector2(350.0, 50.0), 1.0).set_delay(0.25)
-    tutorial_tween.tween_property(hand, "global_position", Vector2(350.0, 20.0), 0.15).set_delay(0.5)
-    tutorial_tween.tween_property(hand, "global_rotation_degrees", -45.0, 0.5).set_delay(0.5)
-    tutorial_tween.tween_property(hand, "scale", Vector2.ZERO, 0.25)
+    tutorial_tween.tween_property(hand, "global_position", Vector2(350.0, 50.0), 0.75).set_delay(0.25)
+    tutorial_tween.tween_property(hand, "global_position", Vector2(350.0, 20.0), 0.15).set_delay(0.25)
+    tutorial_tween.tween_property(hand, "global_rotation_degrees", -45.0, 0.5).set_delay(0.25)
+    tutorial_tween.tween_property(hand, "scale", Vector2.ZERO, 0.25).set_delay(0.25)
     tutorial_tween.tween_callback(func():
         hand.visible = false
     ).set_delay(0.5)
