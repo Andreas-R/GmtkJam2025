@@ -27,5 +27,6 @@ func check_for_next_orbit():
     var satellite_count := orbit_manager.count_satellites()
 
     if satellite_count >= ORBIT_THRESHOLDS[orbit_count - 1]:
-        camera_controller.tween_zoom(true, func(): orbit_manager.add_orbit())
+        orbit_manager.add_orbit()
+        camera_controller.tween_zoom()
         asteroid_spawner.spawn_time = ASTEROID_SPAWN_TIMES[orbit_count - 1]
