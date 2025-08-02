@@ -11,7 +11,6 @@ var cooldown: float = 15.0;
 
 func on_timer_timeout() -> void:
     deploy_shield()
-    timer.start(cooldown)
 
 func deploy_shield():
     collision_shape.disabled = false
@@ -22,7 +21,7 @@ func deploy_shield():
     deploy_tween.tween_property(self, "scale", Vector2.ONE, 0.1)
     
 func destroy_shield():
-    collision_shape.disabled = true
+    set_deferred("collision_shape.disabled", true)
     if deploy_tween != null:
         deploy_tween.kill()
     deploy_tween = create_tween().set_ease(Tween.EASE_IN_OUT)
