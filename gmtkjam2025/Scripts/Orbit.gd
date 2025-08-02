@@ -9,7 +9,7 @@ enum OrbitState {
     TARGETTED
 }
 
-static var _satellite_spacer_prefab: PackedScene = preload("res://Prefabs/SatelliteSpacer.tscn")
+static var _satellite_spacer_prefab: PackedScene = preload("res://Prefabs/Satellites/SatelliteSpacer.tscn")
 
 @onready var game_manager: GameManager = $/root/Main/GameManager
 @onready var _donut_collider: DonutCollisionPolygon2D = $DonutCollider

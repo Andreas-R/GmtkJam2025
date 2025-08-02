@@ -44,6 +44,7 @@ left_mouse_click={
 2d_physics/layer_1="satellite"
 2d_physics/layer_2="astroid"
 2d_physics/layer_3="earth"
+2d_physics/layer_4="shield"
 
 [rendering]
 

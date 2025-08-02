@@ -8,9 +8,8 @@ enum SlingshotState {
     SHOOTING,
 }
 
-static var satellite_prefab: PackedScene = load("res://Prefabs/Satellite.tscn") as PackedScene
+static var satellite_prefab: PackedScene = load("res://Prefabs/Satellites/Satellite.tscn") as PackedScene
 
-@export var max_charge_dist: float = 300
 @export var aim_color: Color = Color.RED
 @export var aim_crosshair_color: Color = Color.RED
 @export var saddle_shadow: Node2D
@@ -20,7 +19,7 @@ static var satellite_prefab: PackedScene = load("res://Prefabs/Satellite.tscn") 
 @export var band_2_handle_shadow: Node2D
 
 @onready var main: Node2D = $/root/Main
-@onready var orbitManager: OrbitManager = $/root/Main/OrbitManager
+@onready var orbit_manager: OrbitManager = $/root/Main/OrbitManager
 @onready var earth: Earth = get_parent()
 @onready var pivot: Node2D = $Pivot
 @onready var saddle: Node2D = $Pivot/Saddle
@@ -31,7 +30,7 @@ static var satellite_prefab: PackedScene = load("res://Prefabs/Satellite.tscn") 
 @onready var band_1_end: Node2D = $Pivot/Saddle/Band1End
 @onready var band_2_end: Node2D = $Pivot/Saddle/Band2End
 @onready var crosshair: Sprite2D = $Crosshair
-@onready var satelliteCounter: SatelliteCounter = get_parent().find_child("SatelliteCounter")
+@onready var satellite_counter: SatelliteCounter = get_parent().find_child("SatelliteCounter")
 
 var state: SlingshotState = SlingshotState.IDLE
 
@@ -56,6 +55,7 @@ func _process(_delta: float):
         SlingshotState.AIMING:
             var mouse_world_pos := get_global_mouse_position()
             var dir := global_position - mouse_world_pos
+            var max_charge_dist = 300 + max(0, orbit_manager._orbits.size() - 1) * 100
             var dist: float = min(max_charge_dist, dir.length())
             pivot.rotation = dir.angle() + PI * 0.5
             saddle.position = Vector2(0, dist)
@@ -63,12 +63,12 @@ func _process(_delta: float):
             saddle_shadow.global_rotation = saddle.global_rotation
             place_band(band_1, band_1_end, band_1_handle, band_1_handle_shadow, band_1_shadow)
             place_band(band_2, band_2_end, band_2_handle, band_2_handle_shadow, band_2_shadow)
-            var max_orbit_radius: float = orbitManager.orbit_radius_offset + max(0, orbitManager._orbits.size() - 1) * orbitManager.orbit_radius_distance
-            var orbit := orbitManager.get_closest_orbit(global_position + dir.normalized() * dist * (max_orbit_radius / max_charge_dist))
+            var max_orbit_radius: float = orbit_manager.orbit_radius_offset + max(0, orbit_manager._orbits.size() - 1) * orbit_manager.orbit_radius_distance
+            var orbit := orbit_manager.get_closest_orbit(global_position + dir.normalized() * dist * (max_orbit_radius / max_charge_dist))
             if orbit != null:
                 crosshair.global_position = global_position + dir.normalized() * orbit.radius
                 crosshair.global_rotation = crosshair.global_position.angle() + PI * 0.5
-                orbitManager.target_orbit(orbit)
+                orbit_manager.target_orbit(orbit)
         SlingshotState.SHOOTING:
             saddle_shadow.global_position = saddle.global_position + saddle_shadow_offset
             saddle_shadow.global_rotation = saddle.global_rotation
@@ -153,12 +153,12 @@ func start_shooting():
     
     crosshair.visible = false
     
-    satelliteCounter.decrease_counter()
+    satellite_counter.decrease_counter()
 
-    orbitManager.target_orbit(null)
+    orbit_manager.target_orbit(null)
 
     target_saddle_pos = saddle.position * -0.75
-    var orbit := orbitManager.get_closest_orbit(crosshair.global_position)
+    var orbit := orbit_manager.get_closest_orbit(crosshair.global_position)
     
     if shoot_tween != null:
         shoot_tween.kill()
@@ -194,7 +194,7 @@ func _input(event):
         var mouse_event := event as InputEventMouseButton
 
         if mouse_event.button_index == MOUSE_BUTTON_LEFT:
-            if mouse_event.pressed && state == SlingshotState.IDLE && earth.hovered && satelliteCounter.satelliteCount > 0:
+            if mouse_event.pressed && state == SlingshotState.IDLE && earth.hovered && satellite_counter.satellite_count > 0:
                 start_charging()
             elif !mouse_event.pressed && state == SlingshotState.AIMING:
                 start_shooting()

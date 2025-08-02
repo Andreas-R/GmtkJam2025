@@ -183,6 +183,7 @@ fill_mode = 4
 texture_progress = ExtResource("11_2q7co")
 
 [node name="Timer" type="Timer" parent="SatelliteCounter"]
+one_shot = true
 
 [node name="CounterPivot" type="Node2D" parent="SatelliteCounter"]
 

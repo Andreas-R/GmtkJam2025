@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://w6xw3gch4kb6" path="res://Prefabs/OrbitManager.tscn" id="2_8ufsd"]
 [ext_resource type="Script" uid="uid://b8qglwa256lg8" path="res://Scripts/Orbit.gd" id="3_6yoey"]
 [ext_resource type="Script" uid="uid://b34sml2qw4v2c" path="res://addons/donut_collision_polygon2D/donut_collision_polygon2D.gd" id="4_kj6kd"]
-[ext_resource type="PackedScene" uid="uid://0ija5qo4q0ac" path="res://Prefabs/SatelliteSpacer.tscn" id="5_kj6kd"]
+[ext_resource type="PackedScene" uid="uid://0ija5qo4q0ac" path="res://Prefabs/Satellites/SatelliteSpacer.tscn" id="5_kj6kd"]
 
 [node name="Orbits" type="Node2D"]
 

@@ -41,6 +41,9 @@ func _process(delta: float):
                 target_orbit.attach_satellite(self)
                 state = SatelliteState.IN_ORBIT
                 target_node.queue_free()
+                var energy_shield: EnergyShield = get_node_or_null("EnergyShield")
+                if energy_shield != null:
+                    energy_shield.deploy_shield()
         SatelliteState.IN_ORBIT:
             pass
 

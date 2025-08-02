@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://cf3ue50mtxjrw"]
+
+[ext_resource type="PackedScene" uid="uid://c8738rgh5r4su" path="res://Prefabs/Satellites/Satellite.tscn" id="1_3xhyp"]
+[ext_resource type="Texture2D" uid="uid://dqs3gdwos7lbi" path="res://Sprites/energy_shield.png" id="2_aperj"]
+[ext_resource type="Script" uid="uid://3dxujptkq61g" path="res://Scripts/EnergyShied.gd" id="3_0yn40"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aperj"]
+radius = 294.17
+
+[node name="Satellite" instance=ExtResource("1_3xhyp")]
+
+[node name="EnergyShield" type="Sprite2D" parent="." index="2"]
+texture = ExtResource("2_aperj")
+script = ExtResource("3_0yn40")
+
+[node name="Timer" type="Timer" parent="EnergyShield" index="0"]
+
+[node name="Area2D" type="Area2D" parent="EnergyShield" index="1"]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnergyShield/Area2D" index="0"]
+shape = SubResource("CircleShape2D_aperj")
+
+[connection signal="timeout" from="EnergyShield/Timer" to="EnergyShield" method="on_timer_timeout"]
