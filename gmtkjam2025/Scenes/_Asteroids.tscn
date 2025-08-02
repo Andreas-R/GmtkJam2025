@@ -2,9 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://jxwaqtrcn11h" path="res://Prefabs/Earth.tscn" id="1_14jdv"]
 [ext_resource type="PackedScene" uid="uid://bryjkwbk1skmu" path="res://Prefabs/CameraController.tscn" id="1_a21cb"]
-[ext_resource type="PackedScene" uid="uid://w6xw3gch4kb6" path="res://Prefabs/OrbitManager.tscn" id="2_a21cb"]
+[ext_resource type="PackedScene" uid="uid://w6xw3gch4kb6" path="res://Prefabs/Orbit/OrbitManager.tscn" id="2_a21cb"]
 [ext_resource type="PackedScene" uid="uid://de0u73wtib4ax" path="res://Prefabs/Asteroids/AsteroidSpawner.tscn" id="3_sm5vq"]
-[ext_resource type="PackedScene" uid="uid://nobr0sqf3owg" path="res://Prefabs/UI.tscn" id="5_sm5vq"]
+[ext_resource type="PackedScene" path="res://Prefabs/UI.tscn" id="5_sm5vq"]
 
 [node name="Main" type="Node2D"]
 
