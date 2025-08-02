@@ -57,8 +57,7 @@ func _ready():
     _donut_collider.width = _collider_width
     _base_rotation_direction = 1 if _orbit_outline.clockwise_rotation else -1
     _local_rotation_speed_deg = _get_base_rotation_speed(_base_rotation_direction)
-    #_max_satellites = floori((2 * radius * PI) / (min_satellite_spacing * 3))
-    _max_satellites = 1
+    _max_satellites = floori((2 * radius * PI) / (min_satellite_spacing * 3))
     _orbit_outline._color = _orbit_outline.base_color
     _limit_label.position = Vector2(0, radius - 70)
     _limit_label_value.modulate = _orbit_outline.base_color
