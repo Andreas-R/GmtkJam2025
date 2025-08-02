@@ -68,8 +68,12 @@ func _process(_delta: float):
         SlingshotState.AIMING:
             var mouse_world_pos := get_global_mouse_position()
             var dir := global_position - mouse_world_pos
+            var dist := dir.length()
+            if dist == 0:
+                dir = Vector2.UP
+                dist = 1.0
             var max_charge_dist = 300 + max(0, orbit_manager._orbits.size() - 1) * 100
-            var dist: float = min(max_charge_dist, dir.length())
+            dist = min(max_charge_dist, dist)
             pivot.rotation = dir.angle() + PI * 0.5
             saddle.position = Vector2(0, dist)
             saddle_shadow.global_position = saddle.global_position + saddle_shadow_offset
@@ -93,8 +97,11 @@ func _process(_delta: float):
 func _draw():
     if state == SlingshotState.AIMING:
         var dir := crosshair.global_position - saddle.global_position
-        var dist := dir.length()
-        var clamped_dist: float = max(0, dist - 30)
+        var dist: float = dir.length()
+        if dist == 0:
+            dir = Vector2.UP
+            dist = 1.0
+        var clamped_dist: float = max(1.0, dist - 30.0)
         draw_dashed_line(saddle.global_position, saddle.global_position + (dir / dist) * clamped_dist, aim_color, 7, 40, false, true)
 
 func reset_slingshot():
