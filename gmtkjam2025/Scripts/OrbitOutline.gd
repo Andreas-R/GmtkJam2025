@@ -34,7 +34,7 @@ func _draw():
     var step = 360.0 / parts if parts == 1 else 360.0 / (parts * 2)
     var i = .0
     while i < 360.0:
-        draw_arc(position, radius, deg_to_rad(i), deg_to_rad(i + step), max((segments + 1.0) / parts, 2), _color, _local_line_width, true)
+        draw_arc(position, radius, deg_to_rad(i), deg_to_rad(i + step), max((segments + 1.0) / parts, 2), _color, _local_line_width * line_width_multiplier, true)
         i = i + step * 2
 
 func _process(_delta: float) -> void:
