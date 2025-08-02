@@ -17,6 +17,8 @@ static var _satellite_spacer_prefab: PackedScene = preload("res://Prefabs/Satell
 @export var orbit_index: int = 0
 @export var _orbit_outline: OrbitOutline 
 @export var _satellite_targets: SatelliteTargets
+@export var satellite_hop_texture: Texture2D
+@export var satellite_hop_color: Color = Color.GREEN
 
 @onready var main: Node2D = $/root/Main
 @onready var game_manager: GameManager = $/root/Main/GameManager
@@ -47,6 +49,8 @@ var _orbit_drag_start_signal: Signal
 var _orbit_drag_end_signal: Signal
 
 var _next_orbit: Orbit = null
+var _satellite_hop_indicator: Node2D
+var _target_repelled_satellite: Satellite
 
 func _ready():
     modulate = Color.TRANSPARENT
@@ -57,10 +61,12 @@ func _ready():
     _donut_collider.width = _collider_width
     _base_rotation_direction = 1 if _orbit_outline.clockwise_rotation else -1
     _local_rotation_speed_deg = _get_base_rotation_speed(_base_rotation_direction)
-    _max_satellites = floori((2 * radius * PI) / (min_satellite_spacing * 3))
+    # _max_satellites = floori((2 * radius * PI) / (min_satellite_spacing * 3))
+    _max_satellites = 2
     _orbit_outline._color = _orbit_outline.base_color
     _limit_label.position = Vector2(0, radius - 70)
     _limit_label_value.modulate = _orbit_outline.base_color
+    _satellite_hop_indicator = _create_satellite_hop_indicator(satellite_hop_texture, satellite_hop_color)
 
 func blend_in():
     var blend_in_tween = get_tree().create_tween()
@@ -143,15 +149,31 @@ func _get_configuration_warnings() -> PackedStringArray:
 func set_collider_width(collider_width: float) -> void:
     _collider_width = collider_width
 
-func target() -> void:
+func target(target_pos: Vector2) -> void:
+    if count_satellites() >= _max_satellites:
+        _set_target_repelled_satellite(get_closest_satellite_to_pos(target_pos))
     if _state == OrbitState.TARGETTED:
         return
     _change_state(OrbitState.TARGETTED)
 
 func untarget() -> void:
+    _reset_target_repelled_satellite()
     if _state != OrbitState.TARGETTED:
         return
     _change_state(OrbitState.IDLE)
+
+func _set_target_repelled_satellite(sat: Satellite) -> void:
+    if _target_repelled_satellite == sat or sat == null:
+        return
+    _reset_target_repelled_satellite()
+    _target_repelled_satellite = sat
+    _target_repelled_satellite.tween_modulate(Color.RED) # TODO: Export color
+
+func _reset_target_repelled_satellite():
+    if _target_repelled_satellite == null:
+        return
+    _target_repelled_satellite.tween_modulate(Color.WHITE) # TODO: Export color
+    _target_repelled_satellite = null
 
 func set_min_satellite_spacing(spacing: float) -> void:
     min_satellite_spacing = spacing
@@ -187,6 +209,30 @@ func get_closest_satellite_to(reference_satellite: Satellite) -> Satellite:
             closest = sat
             closest_pos = distance_to_reference
     return closest
+
+func get_closest_satellite_to_pos(reference_position: Vector2) -> Satellite:
+    if _satellite_container.get_child_count() == 0:
+        return
+    var closest: Satellite = null
+    var closest_pos: float
+    for sat: Satellite in _satellite_container.get_children():
+        var distance_to_reference = sat.global_position.distance_to(reference_position)
+        if closest == null or distance_to_reference < closest_pos:
+            closest = sat
+            closest_pos = distance_to_reference
+    return closest
+
+func _create_satellite_hop_indicator(texture: Texture2D, color: Color) -> Node2D:
+    var indicator_node: Sprite2D = Sprite2D.new()
+    indicator_node.visible = false
+    indicator_node.texture = texture
+    indicator_node.modulate = color
+    add_child(indicator_node)
+    return indicator_node
+
+func position_satellite_hop_indicator(base_satellite: Satellite) -> void:
+    # TODO: Implement
+    pass
 
 func set_orbit_drag_signals(start: Signal, end: Signal) -> void:
     _orbit_drag_start_signal = start

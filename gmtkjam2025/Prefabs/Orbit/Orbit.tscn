@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cd4y56l75yr13"]
+[gd_scene load_steps=7 format=3 uid="uid://cd4y56l75yr13"]
 
 [ext_resource type="Script" uid="uid://b8qglwa256lg8" path="res://Scripts/Orbit/Orbit.gd" id="1_1fuu5"]
 [ext_resource type="Script" uid="uid://dw65305324iwv" path="res://Scripts/Orbit/OrbitOutline.gd" id="2_1fuu5"]
 [ext_resource type="Script" uid="uid://b34sml2qw4v2c" path="res://addons/donut_collision_polygon2D/donut_collision_polygon2D.gd" id="2_03wf0"]
+[ext_resource type="Texture2D" uid="uid://brj26nhml8sf6" path="res://Sprites/satellite_silhouette.png" id="2_jr2fx"]
 [ext_resource type="Script" uid="uid://cook7kkhwn8hg" path="res://Scripts/Orbit/SatelliteTargets.gd" id="4_03wf0"]
 [ext_resource type="FontFile" uid="uid://d2wc1u7ejmb4c" path="res://Fonts/Protomolecule.otf" id="5_cnj81"]
 
@@ -10,6 +11,8 @@
 script = ExtResource("1_1fuu5")
 _orbit_outline = NodePath("Outline")
 _satellite_targets = NodePath("SatelliteTargets")
+satellite_hop_texture = ExtResource("2_jr2fx")
+satellite_hop_color = Color(0.368627, 0.392157, 0.556863, 0.784314)
 
 [node name="Outline" type="Node2D" parent="."]
 rotation = 161.886

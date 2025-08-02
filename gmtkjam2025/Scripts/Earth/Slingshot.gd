@@ -85,7 +85,7 @@ func _process(_delta: float):
             if orbit != null:
                 crosshair.global_position = global_position + dir.normalized() * orbit.radius
                 crosshair.global_rotation = crosshair.global_position.angle() + PI * 0.5
-                orbit_manager.target_orbit(orbit)
+                orbit_manager.target_orbit(orbit, crosshair.global_position)
         SlingshotState.SHOOTING:
             saddle_shadow.global_position = saddle.global_position + saddle_shadow_offset
             saddle_shadow.global_rotation = saddle.global_rotation
@@ -188,7 +188,7 @@ func start_shooting():
     
     satellite_counter.decrease_counter()
 
-    orbit_manager.target_orbit(null)
+    orbit_manager.target_orbit(null, Vector2.ZERO)
 
     target_saddle_pos = saddle.position * -0.75
     var orbit := orbit_manager.get_closest_orbit(crosshair.global_position)

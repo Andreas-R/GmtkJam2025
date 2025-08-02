@@ -100,5 +100,8 @@ func destroy():
         target_node.queue_free()
     queue_free()
 
+func tween_modulate(color: Color) -> void:
+    create_tween().tween_property(self, "modulate", color, 0.2).set_ease(Tween.EASE_IN)
+
 func get_spacer() -> SatelliteSpacer:
     return $SatelliteSpacer
