@@ -21,6 +21,7 @@ static var charger_satellite_prefab: PackedScene = load("res://Prefabs/Satellite
 @export var band_2_handle_shadow: Node2D
 
 @onready var main: Node2D = $/root/Main
+@onready var game_manager: GameManager = $/root/Main/GameManager
 @onready var orbit_manager: OrbitManager = $/root/Main/OrbitManager
 @onready var earth: Earth = get_parent()
 @onready var pivot: Node2D = $Pivot
@@ -49,8 +50,16 @@ var next_satellite: Satellite.SatelliteType = Satellite.SatelliteType.DEFAULT
 signal state_changed(new_state: SlingshotState)
 
 func _ready() -> void:
+    game_manager.upgrade_selection_started.connect(_on_upgrade_selection_started)
     crosshair.modulate = aim_crosshair_color
     _change_state(SlingshotState.IDLE)
+
+func _exit_tree() -> void:
+    game_manager.upgrade_selection_started.connect(_on_upgrade_selection_started)
+
+func _on_upgrade_selection_started():
+    if state == SlingshotState.AIMING:
+        idle_slingshot()
 
 func _process(_delta: float):
     match state:
@@ -193,6 +202,10 @@ func launch_satellite(orbit: Orbit):
 
 func idle_slingshot():
     _change_state(SlingshotState.IDLE)
+
+    if satellite != null:
+        satellite.queue_free()
+        satellite = null
 
     hide_slingshot()
     reset_slingshot()
