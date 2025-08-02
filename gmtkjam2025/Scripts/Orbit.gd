@@ -50,6 +50,12 @@ func _ready():
     _base_rotation_direction = 1 if _orbit_outline.clockwise_rotation else -1
     _local_rotation_speed_deg = _get_base_rotation_speed(_base_rotation_direction)
 
+func blend_in():
+    modulate = Color.TRANSPARENT
+    var blend_in_tween = get_tree().create_tween()
+    blend_in_tween.tween_property(self, "modulate", Color.TRANSPARENT, 1.0)
+    blend_in_tween.tween_property(self, "modulate", Color.WHITE, 1.0)
+
 func _process(delta: float) -> void:
     match _state:
         OrbitState.DRAGGED:

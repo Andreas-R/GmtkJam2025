@@ -2,8 +2,8 @@ class_name GameManager
 
 extends Node2D
 
-static var ORBIT_THRESHOLDS = [3, 8, 15, 25];
-static var ASTEROID_SPAWN_TIMES = [10.0, 9.0, 8.0, 7.0];
+static var ORBIT_THRESHOLDS = [0, 3, 7, 12, 18, 25, 32];
+static var ASTEROID_SPAWN_TIMES = [10.0, 9.5, 9.0, 8.5, 8.0, 7.5, 7.0];
 
 @onready var camera_controller: CameraController = $/root/Main/CameraController
 @onready var orbit_manager: OrbitManager = $/root/Main/OrbitManager
@@ -21,12 +21,12 @@ func start_game() -> void:
 func check_for_next_orbit():
     var orbit_count := orbit_manager._orbits.size()
 
-    if orbit_count > ORBIT_THRESHOLDS.size():
+    if orbit_count >= ORBIT_THRESHOLDS.size():
         return
 
     var satellite_count := orbit_manager.count_satellites()
 
-    if satellite_count >= ORBIT_THRESHOLDS[orbit_count - 1]:
+    if satellite_count >= ORBIT_THRESHOLDS[orbit_count]:
         orbit_manager.add_orbit()
         camera_controller.tween_zoom()
-        asteroid_spawner.spawn_time = ASTEROID_SPAWN_TIMES[orbit_count - 1]
+        asteroid_spawner.spawn_time = ASTEROID_SPAWN_TIMES[orbit_count]

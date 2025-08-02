@@ -41,6 +41,7 @@ func add_orbit() -> void:
     orbit_drag_end.connect(new_orbit.on_orbit_drag_end)
     add_child(new_orbit)
     _orbits.append(new_orbit)
+    new_orbit.blend_in()
     adjust_orbit_outline()
 
 func adjust_orbit_outline() -> void:
