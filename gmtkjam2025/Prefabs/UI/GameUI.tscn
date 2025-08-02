@@ -42,6 +42,7 @@ theme_override_fonts/font = ExtResource("2_l5pbw")
 theme_override_font_sizes/font_size = 50
 text = "Demand"
 vertical_alignment = 1
+uppercase = true
 
 [node name="Value" type="Label" parent="DemandPanel/HBoxContainer"]
 layout_mode = 2
@@ -92,6 +93,7 @@ theme_override_fonts/font = ExtResource("2_l5pbw")
 theme_override_font_sizes/font_size = 30
 text = "Next orbit at"
 vertical_alignment = 1
+uppercase = true
 
 [node name="Value" type="Label" parent="NextOrbitPanel/HBoxContainer"]
 layout_mode = 2
