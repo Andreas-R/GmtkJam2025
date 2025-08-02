@@ -24,10 +24,12 @@ func init_orbits() -> void:
 
 func add_orbit() -> void:
     var new_orbit: Orbit = _orbit_prefab.instantiate()
+    var base_orbit_rotation_speed = 16
     new_orbit.set_radius(orbit_radius_offset + orbit_radius_distance * (_orbits.size()))
     new_orbit._orbit_outline.parts = round(new_orbit.radius / 7)
     new_orbit._orbit_outline.clockwise_rotation = (_orbits.size() % 2) == 0
-    new_orbit._orbit_outline.rotation_speed_deg = max(16 - _orbits.size() * 2, 1)
+    new_orbit._orbit_outline.rotation_speed_deg = max(base_orbit_rotation_speed - _orbits.size() * 2, 1)
+    new_orbit.satellite_approach_speed = max(base_orbit_rotation_speed - _orbits.size() * 2, 1)
     new_orbit.set_collider_width(orbit_radius_distance)
     new_orbit.set_min_satellite_spacing(min_satellite_spacing)
     new_orbit.orbit_index = _orbits.size()

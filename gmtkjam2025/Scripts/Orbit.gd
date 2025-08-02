@@ -15,6 +15,7 @@ static var _satellite_spacer_prefab: PackedScene = preload("res://Prefabs/Satell
 @onready var _donut_collider: DonutCollisionPolygon2D = $DonutCollider
 @export var _orbit_outline: OrbitOutline 
 @onready var _satellite_container: Node = $Satellites
+@export var _satellite_targets: SatelliteTargets
 
 @export_range(0, 360) var rotation_speed_deg: float = 20
 @export_category("Satellite Properties")
@@ -22,12 +23,14 @@ static var _satellite_spacer_prefab: PackedScene = preload("res://Prefabs/Satell
 @export var orbit_index: int = 0
 
 var radius: float = 200
+var satellite_approach_speed: float = 20
 
 var _collider_width: float = 100
 
 var _state: OrbitState
 var _last_mouse_angle: float
 var _local_rotation_speed_deg: float
+var _base_rotation_direction: int
 
 var _is_hovered: bool = false
 var _hover_line_width_multiplier: float = 4.0
@@ -44,12 +47,13 @@ func _ready():
     _state = OrbitState.IDLE
     _donut_collider.radius = radius
     _donut_collider.width = _collider_width
-    _local_rotation_speed_deg = _get_base_rotation_speed()
+    _base_rotation_direction = 1 if _orbit_outline.clockwise_rotation else -1
+    _local_rotation_speed_deg = _get_base_rotation_speed(_base_rotation_direction)
 
 func _process(delta: float) -> void:
     match _state:
         OrbitState.DRAGGED:
-            var current_angle = get_local_mouse_position().rotated(-rotation).angle()
+            var current_angle = get_local_mouse_position().rotated(-_satellite_container.rotation).angle()
             var delta_angle = wrapf(current_angle - _last_mouse_angle, -PI, PI)
             var mouse_angular_speed = delta_angle / delta
             _local_rotation_speed_deg += mouse_angular_speed * 1.3
@@ -57,17 +61,19 @@ func _process(delta: float) -> void:
             if Input.is_action_just_released("left_mouse_click"):
                 _change_state(OrbitState.HOVERED if _is_hovered else OrbitState.IDLE)
         _:
-            _local_rotation_speed_deg = lerpf(_local_rotation_speed_deg, _get_base_rotation_speed(), 0.05)
-    rotation += deg_to_rad(_local_rotation_speed_deg) * delta
+            _local_rotation_speed_deg = lerpf(_local_rotation_speed_deg, _get_base_rotation_speed(_base_rotation_direction), 0.05)
+    _satellite_container.rotation += deg_to_rad(_local_rotation_speed_deg) * delta
+    _satellite_targets._rotate(satellite_approach_speed * sign(_local_rotation_speed_deg), delta)
+    _orbit_outline._rotate(_local_rotation_speed_deg, delta)
 
-func _get_base_rotation_speed() -> float:
-    return rotation_speed_deg * (1 if _orbit_outline.clockwise_rotation else -1)
+func _get_base_rotation_speed(direction: float) -> float:
+    return rotation_speed_deg * sign(direction)
 
 func _on_input_event(_viewport: Viewport, event: InputEvent, _shape_idx: int):
     if event is InputEventMouseButton:
         if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
             _change_state(OrbitState.DRAGGED)
-            _last_mouse_angle = get_local_mouse_position().rotated(-rotation).angle()
+            _last_mouse_angle = get_local_mouse_position().rotated(-_satellite_container.rotation).angle()
 
 func _change_state(new_state: OrbitState) -> void:
     if new_state == _state or _is_other_dragged:
@@ -92,7 +98,7 @@ func _change_state(new_state: OrbitState) -> void:
         OrbitState.TARGETTED:
             get_tree().create_tween().tween_property(_orbit_outline, "_color", _orbit_outline.target_color, 0.1)
         OrbitState.HOVERED:
-            if old_state == OrbitState.TARGETTED:
+            if old_state == OrbitState.TARGETTED and not _is_hovered:
                 # Cannot go into hovered state if targetted
                 return
             _orbit_outline.slow_rotation()
@@ -117,16 +123,12 @@ func set_collider_width(collider_width: float) -> void:
 func target() -> void:
     if _state == OrbitState.TARGETTED:
         return
-
-    if _state != OrbitState.DRAGGED:
-        _change_state(OrbitState.TARGETTED)
+    _change_state(OrbitState.TARGETTED)
 
 func untarget() -> void:
     if _state != OrbitState.TARGETTED:
         return
-
-    if _state != OrbitState.DRAGGED:
-        _change_state(OrbitState.IDLE)
+    _change_state(OrbitState.IDLE)
 
 func set_min_satellite_spacing(spacing: float) -> void:
     min_satellite_spacing = spacing
@@ -139,11 +141,6 @@ func attach_satellite(attached_satellite: Satellite) -> void:
     satellite_spacer.set_orbit_index(orbit_index)
     game_manager.check_for_next_orbit()
 
-func on_slingshot_state_changed(slingshot_state: Slingshot.SlingshotState):
-    _slingshot_state = slingshot_state
-    if slingshot_state != Slingshot.SlingshotState.AIMING and _is_hovered:
-        _change_state(OrbitState.HOVERED)
-
 func set_orbit_drag_signals(start: Signal, end: Signal) -> void:
     _orbit_drag_start_signal = start
     _orbit_drag_end_signal = end
@@ -154,6 +151,11 @@ func on_orbit_drag_start(index: int) -> void:
 func on_orbit_drag_end(_index: int) -> void:
     _is_other_dragged = false
     if _is_hovered:
+        _change_state(OrbitState.HOVERED)
+
+func on_slingshot_state_changed(slingshot_state: Slingshot.SlingshotState):
+    _slingshot_state = slingshot_state
+    if slingshot_state != Slingshot.SlingshotState.AIMING and _state != OrbitState.DRAGGED and _is_hovered:
         _change_state(OrbitState.HOVERED)
 
 func _on_mouse_entered() -> void:
