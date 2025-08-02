@@ -57,11 +57,13 @@ position = Vector2(870, 0)
 texture = ExtResource("4_ctwuv")
 
 [node name="Shadow" type="Sprite2D" parent="Planet"]
+rotation = 0.254731
 texture = ExtResource("5_2q7co")
 
 [node name="LightMask" type="Sprite2D" parent="Planet"]
 clip_children = 1
 z_index = 1
+rotation = 0.254731
 texture = ExtResource("7_0lv00")
 
 [node name="SaddleShadow" type="Sprite2D" parent="Planet/LightMask"]

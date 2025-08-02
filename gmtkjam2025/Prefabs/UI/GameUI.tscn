@@ -46,8 +46,6 @@ alignment = 1
 
 [node name="Label" type="Label" parent="DemandPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_l5pbw")
 theme_override_font_sizes/font_size = 42
 text = "Demand"
@@ -56,8 +54,6 @@ uppercase = true
 
 [node name="Value" type="Label" parent="DemandPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("3_amjep")
 theme_override_font_sizes/font_size = 60
 text = "0/0"
@@ -201,8 +197,6 @@ alignment = 1
 
 [node name="Label" type="Label" parent="NextOrbitPanel/HBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_l5pbw")
 theme_override_font_sizes/font_size = 28
 text = "Next orbit at"
@@ -211,8 +205,6 @@ uppercase = true
 
 [node name="Value" type="Label" parent="NextOrbitPanel/HBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("3_amjep")
 theme_override_font_sizes/font_size = 40
 text = "5"

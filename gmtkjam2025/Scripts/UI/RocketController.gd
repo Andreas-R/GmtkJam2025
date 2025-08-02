@@ -60,8 +60,9 @@ func fly_out():
 func shrink():
     if shrink_tween != null:
         shrink_tween.kill()
-    shrink_tween = create_tween().set_trans(Tween.TRANS_CUBIC)
+    shrink_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_parallel(true)
     shrink_tween.tween_property(self, "scale", Vector2.ZERO, upgrade_ui_manager.shrink_time)
+    shrink_tween.tween_property(self, "position", Vector2(start_pos.x * 0.3, position.y), upgrade_ui_manager.shrink_time)
 
 func hightlight(highlighted_: bool):
     highlighted = highlighted_
