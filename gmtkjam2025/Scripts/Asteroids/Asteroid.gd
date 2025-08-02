@@ -6,6 +6,9 @@ extends Node2D
 
 var no_collision = false
 
+func _process(delta):
+    rotate(2 * PI * delta)
+
 func on_area_2d_area_entered(area: Area2D) -> void:
     if no_collision:
         return
