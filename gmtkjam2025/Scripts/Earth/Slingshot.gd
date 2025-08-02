@@ -8,7 +8,7 @@ enum SlingshotState {
     SHOOTING,
 }
 
-static var satellite_prefab: PackedScene = load("res://Prefabs/Satellite.tscn") as PackedScene
+static var satellite_prefab: PackedScene = load("res://Prefabs/Satellites/Satellite.tscn") as PackedScene
 
 @export var max_charge_dist: float = 300
 @export var aim_color: Color = Color.RED
