@@ -5,6 +5,7 @@ extends Node2D
 static var _orbit_prefab: PackedScene = preload("res://Prefabs/Orbit.tscn")
 
 @onready var _slingshot: Slingshot = $/root/Main/Earth/Slingshot
+@onready var camera_controller: CameraController = $/root/Main/CameraController
 
 @export var orbit_radius_offset: float = 200
 @export var orbit_radius_distance: float = 100
@@ -26,8 +27,8 @@ func add_orbit() -> void:
     var new_orbit: Orbit = _orbit_prefab.instantiate()
     var base_orbit_rotation_speed = 16
     new_orbit.set_radius(orbit_radius_offset + orbit_radius_distance * (_orbits.size()))
-    new_orbit._orbit_outline.parts = round(new_orbit.radius / 7)
-    new_orbit._orbit_outline.set_line_width(3 * (_orbits.size() + 1))
+    new_orbit._orbit_outline.parts = round(new_orbit.radius / (7 * camera_controller.calc_zoom_scale(_orbits.size())))
+    new_orbit._orbit_outline.set_line_width(3 * camera_controller.calc_zoom_scale(_orbits.size()))
     new_orbit._orbit_outline.clockwise_rotation = (_orbits.size() % 2) == 0
     new_orbit._orbit_outline.rotation_speed_deg = max(base_orbit_rotation_speed - _orbits.size() * 2, 1)
     new_orbit.satellite_approach_speed = max(base_orbit_rotation_speed - _orbits.size() * 2, 1)
@@ -45,8 +46,8 @@ func add_orbit() -> void:
 func adjust_orbit_outline() -> void:
     assert(_orbits.size() > 0)
     for orbit: Orbit in _orbits:
-        create_tween().tween_property(orbit._orbit_outline, "parts", ceil(orbit.radius / (7 * _orbits.size())), 0.4).set_ease(Tween.EASE_OUT)
-        create_tween().tween_property(orbit._orbit_outline, "_local_line_width", 3 * _orbits.size(), 0.4).set_ease(Tween.EASE_OUT)
+        create_tween().tween_property(orbit._orbit_outline, "parts", ceil(orbit.radius / (7 * camera_controller.calc_zoom_scale(_orbits.size()))), 0.4).set_ease(Tween.EASE_OUT)
+        create_tween().tween_property(orbit._orbit_outline, "_local_line_width", 3 *camera_controller.calc_zoom_scale(_orbits.size()), 0.4).set_ease(Tween.EASE_OUT)
 
 func get_closest_orbit(target_position: Vector2) -> Orbit:
     if (_orbits.size() == 0):
