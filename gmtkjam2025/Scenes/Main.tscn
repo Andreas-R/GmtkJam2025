@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bja7h30rfjpk8"]
+[gd_scene load_steps=9 format=3 uid="uid://bja7h30rfjpk8"]
 
 [ext_resource type="PackedScene" uid="uid://jxwaqtrcn11h" path="res://Prefabs/Earth.tscn" id="1_r150o"]
 [ext_resource type="PackedScene" uid="uid://cra3tmkk2l423" path="res://Prefabs/GameManager.tscn" id="1_v1gob"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dcete50qs8nfb" path="res://Prefabs/DemandManager.tscn" id="3_jw32o"]
 [ext_resource type="PackedScene" uid="uid://de0u73wtib4ax" path="res://Prefabs/Asteroids/AsteroidSpawner.tscn" id="4_pbw6q"]
 [ext_resource type="PackedScene" uid="uid://dfun5wkcwvg0j" path="res://Prefabs/UI/UI.tscn" id="5_v1gob"]
+[ext_resource type="PackedScene" uid="uid://dvtk8q58xdol6" path="res://Prefabs/TutorialHandler.tscn" id="7_50glp"]
 
 [node name="Main" type="Node2D"]
 
@@ -21,5 +22,7 @@
 [node name="OrbitManager" parent="." instance=ExtResource("2_idj7w")]
 
 [node name="AsteroidSpawner" parent="." instance=ExtResource("4_pbw6q")]
+
+[node name="TutorialHandler" parent="." instance=ExtResource("7_50glp")]
 
 [node name="UI" parent="." instance=ExtResource("5_v1gob")]
