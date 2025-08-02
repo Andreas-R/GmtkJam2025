@@ -73,3 +73,6 @@ func destroy():
     if target_node != null:
         target_node.queue_free()
     queue_free()
+
+func get_spacer() -> SatelliteSpacer:
+    return $SatelliteSpacer

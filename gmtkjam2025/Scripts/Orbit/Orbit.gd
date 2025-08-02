@@ -18,6 +18,7 @@ static var _satellite_spacer_prefab: PackedScene = preload("res://Prefabs/Satell
 @export var _orbit_outline: OrbitOutline 
 @export var _satellite_targets: SatelliteTargets
 
+@onready var main: Node2D = $/root/Main
 @onready var game_manager: GameManager = $/root/Main/GameManager
 @onready var _donut_collider: DonutCollisionPolygon2D = $DonutCollider
 @onready var _satellite_container: Node = $Satellites
@@ -44,6 +45,8 @@ var _slingshot_state: Slingshot.SlingshotState
 var _is_other_dragged: bool = false
 var _orbit_drag_start_signal: Signal
 var _orbit_drag_end_signal: Signal
+
+var _next_orbit: Orbit = null
 
 func _ready():
     modulate = Color.TRANSPARENT
@@ -155,11 +158,36 @@ func set_min_satellite_spacing(spacing: float) -> void:
 
 func attach_satellite(attached_satellite: Satellite) -> void:
     var satellite_spacer: SatelliteSpacer = _satellite_spacer_prefab.instantiate()
+    satellite_spacer.name = "SatelliteSpacer"
     satellite_spacer.set_spacing(min_satellite_spacing)
     attached_satellite.add_child(satellite_spacer)
     attached_satellite.reparent(_satellite_container)
     satellite_spacer.set_orbit_index(orbit_index)
+    # if orbit is full -> pick the closest satellite and push it one orbit outwards
+    if count_satellites() > _max_satellites:
+        var kicked_out_satellite: Satellite = get_closest_satellite_to(attached_satellite)
+        var kicked_out_spacer: SatelliteSpacer = kicked_out_satellite.get_spacer()
+        kicked_out_spacer.queue_free()
+        # if next orbit does not exist --> satellite.explode
+        if _next_orbit != null:
+            var position_in_next_orbit: Vector2 = kicked_out_satellite.global_position.normalized() * _next_orbit.radius # TODO: Calculate
+            kicked_out_satellite.reparent(main)
+            kicked_out_satellite.target(position_in_next_orbit, _next_orbit)
+        else:
+            kicked_out_satellite.destroy()
     game_manager.check_for_next_orbit()
+
+func get_closest_satellite_to(reference_satellite: Satellite) -> Satellite:
+    var closest: Satellite = null
+    var closest_pos: float
+    for sat: Satellite in _satellite_container.get_children():
+        if sat == reference_satellite:
+            continue
+        var distance_to_reference = sat.global_position.distance_to(reference_satellite.global_position)
+        if closest == null or distance_to_reference < closest_pos:
+            closest = sat
+            closest_pos = distance_to_reference
+    return closest
 
 func set_orbit_drag_signals(start: Signal, end: Signal) -> void:
     _orbit_drag_start_signal = start
@@ -194,3 +222,6 @@ func count_satellites() -> int:
 func set_radius(new_radius: float) -> void:
     radius = new_radius
     _orbit_outline.radius = new_radius
+
+func set_next_orbit(orbit: Orbit) -> void:
+    _next_orbit = orbit
