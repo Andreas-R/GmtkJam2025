@@ -2,7 +2,7 @@ class_name GameManager
 
 extends Node2D
 
-static var ORBIT_THRESHOLDS = [0, 5, 10, 16, 24, 35, 50];
+static var ORBIT_THRESHOLDS = [0, 5, 11, 18, 26, 35, 45];
 static var ASTEROID_SPAWN_TIMES = [15.0, 13.5, 12.0, 11.0, 10.0, 9.0, 8.0];
 
 @onready var game_ui_manager: GameUiManager = $/root/Main/UI/GameUI
