@@ -22,7 +22,7 @@ func _ready() -> void:
     call_deferred("setup_game")
 
 func _process(_delta: float) -> void:
-    if !started_game && slingshot.made_initial_shot:
+    if !started_game && TutorialController.made_initial_shot:
         start_game()
 
 func setup_game() -> void:

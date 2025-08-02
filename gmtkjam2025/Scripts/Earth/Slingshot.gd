@@ -47,8 +47,6 @@ var band_handle_shadow_offset = Vector2(8.0, 3.0)
 
 var next_satellite: Satellite.SatelliteType = Satellite.SatelliteType.DEFAULT
 
-var made_initial_shot: bool = false
-
 signal state_changed(new_state: SlingshotState)
 
 func _ready() -> void:
@@ -176,7 +174,8 @@ func start_charging():
 
 func start_shooting():
     _change_state(SlingshotState.SHOOTING)
-    made_initial_shot = true
+
+    TutorialController.made_initial_shot = true
     
     crosshair.visible = false
     
