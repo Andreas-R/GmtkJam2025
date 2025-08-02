@@ -26,6 +26,9 @@ func init_orbits() -> void:
 func add_orbit() -> void:
     var new_orbit: Orbit = _orbit_prefab.instantiate()
     var base_orbit_rotation_speed = 16
+    if _orbits.size() > 0:
+        # Assign next orbit of previously outermost orbit to be new orbit
+        _orbits.get(_orbits.size() - 1)._next_orbit = new_orbit
     new_orbit.set_radius(orbit_radius_offset + orbit_radius_distance * (_orbits.size()))
     new_orbit._orbit_outline.parts = round(new_orbit.radius / (7 * camera_controller.calc_zoom_scale(_orbits.size())))
     new_orbit._orbit_outline.set_line_width(3 * camera_controller.calc_zoom_scale(_orbits.size()))
