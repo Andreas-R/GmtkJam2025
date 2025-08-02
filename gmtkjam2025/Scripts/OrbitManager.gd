@@ -49,6 +49,8 @@ func adjust_orbit_outline() -> void:
     for orbit: Orbit in _orbits:
         create_tween().tween_property(orbit._orbit_outline, "parts", ceil(orbit.radius / (7 * camera_controller.calc_zoom_scale(_orbits.size()))), 0.4).set_ease(Tween.EASE_OUT)
         create_tween().tween_property(orbit._orbit_outline, "_local_line_width", 3 *camera_controller.calc_zoom_scale(_orbits.size()), 0.4).set_ease(Tween.EASE_OUT)
+        create_tween().tween_property(orbit._limit_label_value, "theme_override_font_sizes/font_size", 45 * (1 + _orbits.size() * 0.15), 1.0)
+        create_tween().tween_property(orbit._limit_label, "position", Vector2(0, orbit.radius - 70 - _orbits.size() * 4), 1.0)
 
 func get_closest_orbit(target_position: Vector2) -> Orbit:
     if (_orbits.size() == 0):
