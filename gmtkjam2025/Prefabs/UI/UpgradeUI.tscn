@@ -40,12 +40,6 @@ offset_right = -450.0
 offset_bottom = 1200.0
 amount = 3
 
-[node name="Rocket2" parent="Rockets" instance=ExtResource("2_0f0m4")]
-offset_top = 1200.0
-offset_bottom = 1200.0
-index = 1
-satellite_type = 1
-
 [node name="Rocket3" parent="Rockets" instance=ExtResource("2_0f0m4")]
 offset_left = 450.0
 offset_top = 1200.0
@@ -53,3 +47,9 @@ offset_right = 450.0
 offset_bottom = 1200.0
 index = 2
 satellite_type = 2
+
+[node name="Rocket2" parent="Rockets" instance=ExtResource("2_0f0m4")]
+offset_top = 1200.0
+offset_bottom = 1200.0
+index = 1
+satellite_type = 1
