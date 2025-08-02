@@ -20,12 +20,12 @@ script = ExtResource("1_kf85d")
 
 [node name="SmallStarsParticleSystem" type="CPUParticles2D" parent="."]
 z_index = -100
-amount = 2000
+amount = 3000
 texture = ExtResource("1_0drfo")
 lifetime = 10.0
 preprocess = 10.0
 emission_shape = 3
-emission_rect_extents = Vector2(4000, 3000)
+emission_rect_extents = Vector2(4500, 4500)
 gravity = Vector2(0, 0)
 scale_amount_min = 0.2
 scale_amount_max = 0.5
@@ -34,12 +34,12 @@ color_initial_ramp = SubResource("Gradient_sm5vq")
 
 [node name="CrossStarsParticleSystem" type="CPUParticles2D" parent="."]
 z_index = -100
-amount = 200
+amount = 300
 texture = ExtResource("2_63k0p")
 lifetime = 10.0
 preprocess = 10.0
 emission_shape = 3
-emission_rect_extents = Vector2(4000, 3000)
+emission_rect_extents = Vector2(4500, 4500)
 gravity = Vector2(0, 0)
 scale_amount_min = 0.4
 color_ramp = SubResource("Gradient_a21cb")

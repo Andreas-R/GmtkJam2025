@@ -33,7 +33,7 @@ var _local_rotation_speed_deg: float
 var _base_rotation_direction: int
 
 var _is_hovered: bool = false
-var _hover_line_width_multiplier: float = 4.0
+var _hover_line_width_multiplier: float = 3.0
 var _hover_width_tween: Tween
 var _slingshot_state: Slingshot.SlingshotState
 
@@ -42,6 +42,7 @@ var _orbit_drag_start_signal: Signal
 var _orbit_drag_end_signal: Signal
 
 func _ready():
+    modulate = Color.TRANSPARENT
     assert(_collider_width > 0)
     rotation = 0
     _state = OrbitState.IDLE
@@ -51,7 +52,6 @@ func _ready():
     _local_rotation_speed_deg = _get_base_rotation_speed(_base_rotation_direction)
 
 func blend_in():
-    modulate = Color.TRANSPARENT
     var blend_in_tween = get_tree().create_tween()
     blend_in_tween.tween_property(self, "modulate", Color.TRANSPARENT, 1.0)
     blend_in_tween.tween_property(self, "modulate", Color.WHITE, 1.0)

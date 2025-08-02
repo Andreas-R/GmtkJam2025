@@ -13,10 +13,10 @@ extends Node2D
 @export var clockwise_rotation: bool = true
 @export_range(0, 360) var rotation_speed_deg: float = 20
 @export_group("Colours")
-@export var base_color: Color = Color.WHITE
-@export var hover_color: Color = Color.LIGHT_GRAY
-@export var drag_color: Color = Color.GRAY
-@export var target_color: Color = Color.LIGHT_SALMON
+@export var base_color: Color = Color(Color.LIGHT_GRAY, 0.25)
+@export var hover_color: Color = Color(Color.WHITE, 0.35)
+@export var drag_color: Color = Color(Color.WHITE, 0.5)
+@export var target_color: Color = Color(Color.GREEN_YELLOW, 0.75)
 
 var _rotation_speed_multiplier: float = 1.0
 var _local_rotation_speed_deg: float
@@ -33,7 +33,7 @@ func _draw():
     assert(parts > 0)
     var step = 360.0 / parts if parts == 1 else 360.0 / (parts * 2)
     var i = .0
-    while i < 360.0:
+    while i < 360.0 - 0.00001: # small epsilon because of rounding errors
         draw_arc(position, radius, deg_to_rad(i), deg_to_rad(i + step), max((segments + 1.0) / parts, 2), _color, _local_line_width * line_width_multiplier, true)
         i = i + step * 2
 

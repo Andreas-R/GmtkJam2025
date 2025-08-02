@@ -5,6 +5,7 @@ extends Node2D
 static var ORBIT_THRESHOLDS = [0, 3, 7, 12, 18, 25, 32];
 static var ASTEROID_SPAWN_TIMES = [10.0, 9.5, 9.0, 8.5, 8.0, 7.5, 7.0];
 
+@onready var ui_manager: UiManager = $/root/Main/UI
 @onready var camera_controller: CameraController = $/root/Main/CameraController
 @onready var orbit_manager: OrbitManager = $/root/Main/OrbitManager
 @onready var asteroid_spawner: AsteroidSpawner = $/root/Main/AsteroidSpawner
@@ -13,8 +14,10 @@ func _ready() -> void:
     call_deferred("start_game")
 
 func start_game() -> void:
+    ui_manager.blend_in()
+    ui_manager.update_next_orbit(ORBIT_THRESHOLDS[1])
     orbit_manager.init_orbits()
-    camera_controller.tween_zoom()
+    camera_controller.zoom_camera(true)
     asteroid_spawner.spawn_time = ASTEROID_SPAWN_TIMES[0]
     asteroid_spawner.init_spawner()
 
@@ -28,5 +31,9 @@ func check_for_next_orbit():
 
     if satellite_count >= ORBIT_THRESHOLDS[orbit_count]:
         orbit_manager.add_orbit()
-        camera_controller.tween_zoom()
+        camera_controller.zoom_camera()
         asteroid_spawner.spawn_time = ASTEROID_SPAWN_TIMES[orbit_count]
+        if orbit_count < ORBIT_THRESHOLDS.size() - 1:
+            ui_manager.update_next_orbit(ORBIT_THRESHOLDS[orbit_count + 1])
+        else:
+            ui_manager.hide_next_orbit()

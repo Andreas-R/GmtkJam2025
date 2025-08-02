@@ -7,10 +7,10 @@ static var _orbit_prefab: PackedScene = preload("res://Prefabs/Orbit.tscn")
 @onready var _slingshot: Slingshot = $/root/Main/Earth/Slingshot
 @onready var camera_controller: CameraController = $/root/Main/CameraController
 
-@export var orbit_radius_offset: float = 200
-@export var orbit_radius_distance: float = 100
+@export var orbit_radius_offset: float = 600
+@export var orbit_radius_distance: float = 250
 @export_range(1, 20) var initial_orbits: int = 1
-@export var min_satellite_spacing: float = 100.0
+@export var min_satellite_spacing: float = 150.0
 
 var _orbits: Array = []
 
